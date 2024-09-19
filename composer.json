@@ -1,0 +1,24 @@
+{
+  "name": "silverstripe/startup-theme-components",
+  "description": "PHP components and dependencies for the Silverstripe Startup theme",
+  "type": "silverstripe-vendormodule",
+  "keywords": [
+    "silverstripe",
+  ],
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Silverstripe Supernovas",
+      "email": "supernovas@silverstripe.com"
+    }
+  ],
+  "require": {
+    "silverstripe-themes/startup": "dev-main"
+  },
+  "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:silverstripeltd/startup-theme.git"
+        },
+  ]
+}
