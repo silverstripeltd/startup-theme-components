@@ -3,7 +3,7 @@
   "description": "PHP components and dependencies for the Silverstripe Startup theme",
   "type": "silverstripe-vendormodule",
   "keywords": [
-    "silverstripe",
+    "silverstripe"
   ],
   "license": "BSD-3-Clause",
   "authors": [
