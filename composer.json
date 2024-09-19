@@ -19,6 +19,6 @@
         {
             "type": "vcs",
             "url": "git@github.com:silverstripeltd/startup-theme.git"
-        },
+        }
   ]
 }
