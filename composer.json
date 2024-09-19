@@ -13,7 +13,8 @@
     }
   ],
   "require": {
-    "silverstripe-themes/startup": "dev-main"
+    "silverstripe-themes/startup": "dev-main",
+    "heyday/silverstripe-menumanager": "^4.2"
   },
   "repositories": [
         {
