@@ -1,0 +1,11 @@
+---
+Name: startup-theme-components
+---
+
+Heyday\MenuManager\MenuSet:
+  default_sets:
+    - MainMenu
+
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - SilverStripe\StartupTheme\DefaultRecordsExtension
