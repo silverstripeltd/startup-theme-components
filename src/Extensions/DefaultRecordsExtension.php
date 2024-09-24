@@ -6,7 +6,6 @@ use Heyday\MenuManager\MenuItem;
 use Heyday\MenuManager\MenuSet;
 use Page;
 use SilverStripe\ORM\DataExtension;
-use SilverStripe\ORM\DB;
 use SilverStripe\ORM\ValidationException;
 use SilverStripe\SiteConfig\SiteConfig;
 
@@ -34,10 +33,17 @@ class DefaultRecordsExtension extends DataExtension
                 'Contact',
             ];
 
+            $footerPages = [
+                'About Startup',
+                'Another page',
+            ];
+
             // Start sort at 2, as Home page is one
             $sort = 2;
 
-            foreach ($pages as $pageTitle) {
+            $allPages = array_merge($pages, $footerPages);
+
+            foreach ($allPages as $pageTitle) {
                 $page = Page::create([
                     'Title' => $pageTitle,
                     'Sort' => $sort,
@@ -48,7 +54,7 @@ class DefaultRecordsExtension extends DataExtension
             }
 
             // Get default MenuSet and add the default items to it
-            $menu = MenuSet::get()->filter('Name', 'MainMenu')->first();
+            $mainMenu = MenuSet::get()->filter('Name', 'MainMenu')->first();
 
             foreach ($pages as $pageTitle) {
                 $item = MenuItem::create([
@@ -56,7 +62,19 @@ class DefaultRecordsExtension extends DataExtension
                     'PageID' => Page::get()->filter('Title', $pageTitle)->first()->ID,
                 ]);
                 $item->write();
-                $menu->MenuItems()->add($item);
+                $mainMenu->MenuItems()->add($item);
+            }
+
+            // Get footer menu and add items to it
+            $footerMenu = MenuSet::get()->filter('Name', 'FooterMenu')->first();
+
+            foreach ($footerPages as $pageTitle) {
+                $item = MenuItem::create([
+                    'MenuTitle' => $pageTitle,
+                    'PageID' => Page::get()->filter('Title', $pageTitle)->first()->ID,
+                ]);
+                $item->write();
+                $footerMenu->MenuItems()->add($item);
             }
         }
     }

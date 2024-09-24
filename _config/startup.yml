@@ -5,6 +5,7 @@ Name: startup-theme-components
 Heyday\MenuManager\MenuSet:
   default_sets:
     - MainMenu
+    - FooterMenu
 
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
