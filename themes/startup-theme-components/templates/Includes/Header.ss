@@ -9,7 +9,7 @@
             <ul class="menu">
                 <% loop $MenuSet('MainMenu').MenuItems %>
                     <li class="menu__item<% if $Children && $Link == '' %> menu__item--has-submenu<% end_if %>">
-                        <a href="$Link" class="menu__link" <% if $IsNewWindow %>target="_blank"<% end_if %>>$MenuTitle</a>
+                        <a href="$Link" class="menu__link" <% if $IsNewWindow %>target="_blank" rel="noopener noreferrer"<% end_if %>>$MenuTitle</a>
                         <% if $Children && $Link == '' %>
                             <ul class="submenu">
                                 <% loop $Children %>
@@ -40,7 +40,7 @@
             <ul class="mobile-menu" data-accordion>
                 <% loop $MenuSet('MainMenu').MenuItems %>
                     <li class="mobile-menu__item<% if $Children && $Link == '' %> mobile-menu__item--has-submenu<% end_if %>" <% if $Children && $Link == '' %>data-accordion-item<% end_if %>>
-                        <a href="$Link" class="mobile-menu__link" <% if $IsNewWindow %>target="_blank"<% end_if %>
+                        <a href="$Link" class="mobile-menu__link" <% if $IsNewWindow %>target="_blank" rel="noopener noreferrer"<% end_if %>
                         >$MenuTitle</a>
                         <% if $Children && $Link == '' %>
                             <button class="submenu-chevron" type="button" aria-label="Open $MenuTitle submenu" aria-expanded="false" data-accordion-link>

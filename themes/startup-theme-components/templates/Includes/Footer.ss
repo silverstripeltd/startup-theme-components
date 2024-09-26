@@ -7,7 +7,7 @@
                 </li>
                 <% loop $MenuSet('FooterMenu').MenuItems %>
                     <li class="footer-menu__item">
-                        <a href="$Link" class="footer-menu__link" <% if $IsNewWindow %>target="_blank"<% end_if %>>$MenuTitle</a>
+                        <a href="$Link" class="footer-menu__link" <% if $IsNewWindow %>target="_blank" rel="noopener noreferrer"<% end_if %>>$MenuTitle</a>
                     </li>
                 <% end_loop %>
             </ul>
