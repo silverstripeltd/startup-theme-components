@@ -14,7 +14,8 @@
   ],
   "require": {
     "silverstripe-themes/startup": "dev-main",
-    "heyday/silverstripe-menumanager": "^4.2"
+    "heyday/silverstripe-menumanager": "^4.2",
+    "dnadesign/silverstripe-elemental": "^5.2"
   },
   "repositories": [
         {
