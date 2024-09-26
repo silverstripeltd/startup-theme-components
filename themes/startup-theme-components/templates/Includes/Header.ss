@@ -8,9 +8,9 @@
         <nav class="nav nav--desktop">
             <ul class="menu">
                 <% loop $MenuSet('MainMenu').MenuItems %>
-                    <li class="menu__item<% if $Children %> menu__item--has-submenu<% end_if %>">
-                        <a href="$Link" class="menu__link">$MenuTitle</a>
-                        <% if $Children %>
+                    <li class="menu__item<% if $Children && $Link == '' %> menu__item--has-submenu<% end_if %>">
+                        <a href="$Link" class="menu__link" <% if $IsNewWindow %>target="_blank"<% end_if %>>$MenuTitle</a>
+                        <% if $Children && $Link == '' %>
                             <ul class="submenu">
                                 <% loop $Children %>
                                     <li class="submenu__item">
@@ -39,10 +39,10 @@
             </a>
             <ul class="mobile-menu" data-accordion>
                 <% loop $MenuSet('MainMenu').MenuItems %>
-                    <li class="mobile-menu__item<% if $Children %> mobile-menu__item--has-submenu<% end_if %>" <% if $Children %>data-accordion-item<% end_if %>>
-                        <a href="$Link" class="mobile-menu__link"
+                    <li class="mobile-menu__item<% if $Children && $Link == '' %> mobile-menu__item--has-submenu<% end_if %>" <% if $Children && $Link == '' %>data-accordion-item<% end_if %>>
+                        <a href="$Link" class="mobile-menu__link" <% if $IsNewWindow %>target="_blank"<% end_if %>
                         >$MenuTitle</a>
-                        <% if $Children %>
+                        <% if $Children && $Link == '' %>
                             <button class="submenu-chevron" type="button" aria-label="Open $MenuTitle submenu" aria-expanded="false" data-accordion-link>
                                 <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0 1.88973L1.29663 0.5L5.50183 5.08612L9.70337 0.5L11 1.88973L5.50183 7.86607L0 1.88973Z" fill="#2D282870"/>
