@@ -1,0 +1,2 @@
+Elemental area: 
+$ElementalArea
