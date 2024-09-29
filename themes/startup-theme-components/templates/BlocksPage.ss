@@ -1,2 +1,0 @@
-Elemental area: 
-$ElementalArea
