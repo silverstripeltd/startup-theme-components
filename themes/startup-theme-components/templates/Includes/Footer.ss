@@ -1,6 +1,6 @@
 <footer class="footer">
     <div class="container container--footer">
-        <nav class="nav nav--footer">
+        <nav aria-label="Footer">
             <ul class="footer-menu">
                 <li class="footer-menu__item footer-menu__item--copyright">
                     &copy; $CurrentDatetime.Format("y") $SiteConfig.Title
