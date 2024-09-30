@@ -7,6 +7,7 @@ use SilverStripe\Forms\CheckboxField;
 
 class BlocksPage extends Page
 {
+
     private static string $table_name = 'BlocksPage';
 
     private static array $db = [
@@ -30,4 +31,5 @@ class BlocksPage extends Page
         );
         return $fields;
     }
+
 }
