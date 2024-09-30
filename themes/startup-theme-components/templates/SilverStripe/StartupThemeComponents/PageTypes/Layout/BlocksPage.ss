@@ -1,4 +1,4 @@
-<% if not $ShowHero %>
+<% if $ShowHero %>
     <div class="hero">
         <div class="container">
             $Breadcrumbs
