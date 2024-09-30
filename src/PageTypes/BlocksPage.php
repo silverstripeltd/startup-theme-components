@@ -27,7 +27,7 @@ class BlocksPage extends Page
             CheckboxField::create(
                 'ShowHero', 
                 'Show Hero',
-            )->setDescription('Show hero area containing breadcrumb and page name.'),
+            )->setDescription('Show hero area containing breadcrumbs and page name.'),
         );
         return $fields;
     }
