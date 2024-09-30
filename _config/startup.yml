@@ -11,7 +11,3 @@ SilverStripe\SiteConfig\SiteConfig:
   extensions:
     - SilverStripe\StartupTheme\DefaultRecordsExtension
     - SilverStripe\StartupTheme\HeaderButtonExtension
-
-SilverStripe\LinkField\Models\SiteTreeLink:
-  extensions:
-    - SilverStripe\Link\LinkExtension

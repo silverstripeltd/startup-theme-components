@@ -9,15 +9,16 @@ use SilverStripe\ORM\DataExtension;
 
 class HeaderButtonExtension extends DataExtension {
 
-    public static array $has_one = [
-        'HeaderLink' => Link::class
+    private static array $has_one = [
+        'HeaderButton' => Link::class
+    ];
+
+    private static array $owns = [
+        'HeaderButton',
     ];
 
     public function updateCMSFields(FieldList $fields): void {
-
-        $fields->addFieldsToTab('Root.HeaderLink',
-            [
-                Linkfield::create('HeaderLink','Header Link')
-            ]);
+        $fields->addFieldToTab('Root.HeaderButton', Linkfield::create('HeaderButton', 'Header Link'));
     }
+
 }
