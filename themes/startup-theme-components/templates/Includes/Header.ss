@@ -23,7 +23,14 @@
                 <% end_loop %>
             </ul>
         </nav>
-
+        <%-- SiteConfig Header Button Link  --%>
+        <% with $SiteConfig  %>
+            <% if $HeaderButton %>
+                <div class="header-button">
+                    <button class="button">$HeaderButton</button>
+                </div>
+            <% end_if %>
+        <% end_with %>
         <%-- Mobile menu controls --%>
         <button class="hamburger" type="button" aria-label="Toggle menu" data-toggle-mobile-menu>
             <span class="hamburger__lines"></span>
@@ -61,6 +68,14 @@
                     </li>
                 <% end_loop %>
             </ul>
+            <%-- SiteConfig Mobile nav Header Button Link  --%>
+            <% with $SiteConfig  %>
+                <% if $HeaderButton %>
+                    <div class="mobile-menu__button">
+                        <button type="button" class="button">$HeaderButton</button>
+                    </div>
+                <% end_if %>
+            <% end_with %>
         </nav>
     </div>
 </header>

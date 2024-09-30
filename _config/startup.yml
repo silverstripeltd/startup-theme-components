@@ -10,7 +10,9 @@ Heyday\MenuManager\MenuSet:
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
     - SilverStripe\StartupTheme\DefaultRecordsExtension
+    - SilverStripe\StartupTheme\HeaderButtonExtension
 
 SilverStripe\StartupThemeComponents\PageTypes\BlocksPage:
   extensions:
     - DNADesign\Elemental\Extensions\ElementalPageExtension
+
