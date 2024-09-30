@@ -23,7 +23,7 @@ class BlocksPage extends Page
 
         $fields->insertAfter(
             'MenuTitle',
-            $metaTitle = CheckboxField::create(
+            CheckboxField::create(
                 'ShowHero', 
                 'Show Hero',
             )->setDescription('Show hero area containing breadcrumb and page name.'),
