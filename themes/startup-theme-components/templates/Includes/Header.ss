@@ -1,28 +1,30 @@
 <header class="header">
     <div class="container container--header">
-        <a href="$baseURL" class="logo">
-            <img src="$resourceURL('themes/startup/images/logo--white.svg')" alt="{$SiteConfig.Title}">
-        </a>
+        <div class="header-main">
+            <a href="$baseURL" class="logo">
+                <img src="$resourceURL('themes/startup/images/logo--white.svg')" alt="{$SiteConfig.Title}">
+            </a>
 
-        <%-- Desktop menu --%>
-        <nav class="nav nav--desktop">
-            <ul class="menu">
-                <% loop $MenuSet('MainMenu').MenuItems %>
-                    <li class="menu__item<% if $Children %> menu__item--has-submenu<% end_if %>">
-                        <a href="$Link" class="menu__link" <% if $IsNewWindow %>target="_blank" rel="noopener noreferrer"<% end_if %>>$MenuTitle</a>
-                        <% if $Children %>
-                            <ul class="submenu">
-                                <% loop $Children %>
-                                    <li class="submenu__item">
-                                        <a href="$Link" class="submenu__link">$MenuTitle</a>
-                                    </li>
-                                <% end_loop %>
-                            </ul>
-                        <% end_if %>
-                    </li>
-                <% end_loop %>
-            </ul>
-        </nav>
+            <%-- Desktop menu --%>
+            <nav class="nav nav--desktop">
+                <ul class="menu">
+                    <% loop $MenuSet('MainMenu').MenuItems %>
+                        <li class="menu__item<% if $Children %> menu__item--has-submenu<% end_if %>">
+                            <a href="$Link" class="menu__link" <% if $IsNewWindow %>target="_blank" rel="noopener noreferrer"<% end_if %>>$MenuTitle</a>
+                            <% if $Children %>
+                                <ul class="submenu">
+                                    <% loop $Children %>
+                                        <li class="submenu__item">
+                                            <a href="$Link" class="submenu__link">$MenuTitle</a>
+                                        </li>
+                                    <% end_loop %>
+                                </ul>
+                            <% end_if %>
+                        </li>
+                    <% end_loop %>
+                </ul>
+            </nav>
+        </div>
         <%-- SiteConfig Header Button Link  --%>
         <% with $SiteConfig  %>
             <% if $HeaderButton %>
