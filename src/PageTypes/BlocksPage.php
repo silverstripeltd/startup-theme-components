@@ -10,6 +10,8 @@ class BlocksPage extends Page
 
     private static string $table_name = 'BlocksPage';
 
+    private static $icon_class = 'font-icon-p-alt-2';
+
     private static array $db = [
         'ShowHero' => 'Boolean',
     ];
@@ -25,7 +27,7 @@ class BlocksPage extends Page
         $fields->insertAfter(
             'MenuTitle',
             CheckboxField::create(
-                'ShowHero', 
+                'ShowHero',
                 'Show Hero',
             )->setDescription('Show hero area containing breadcrumbs and page name.'),
         );
