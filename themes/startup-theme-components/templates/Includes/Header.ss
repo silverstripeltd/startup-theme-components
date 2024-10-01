@@ -1,38 +1,41 @@
 <header class="header">
     <div class="container container--header">
-        <div class="header-main">
-            <a href="$baseURL" class="logo">
-                <img src="$resourceURL('themes/startup/images/logo--white.svg')" alt="{$SiteConfig.Title}">
-            </a>
+        <a href="$baseURL" class="logo">
+            <img src="$resourceURL('themes/startup/images/logo--white.svg')" alt="{$SiteConfig.Title}">
+        </a>
 
-            <%-- Desktop menu --%>
-            <nav class="nav nav--desktop">
-                <ul class="menu">
-                    <% loop $MenuSet('MainMenu').MenuItems %>
-                        <li class="menu__item<% if $Children %> menu__item--has-submenu<% end_if %>">
-                            <a href="$Link" class="menu__link" <% if $IsNewWindow %>target="_blank" rel="noopener noreferrer"<% end_if %>>$MenuTitle</a>
-                            <% if $Children %>
-                                <ul class="submenu">
-                                    <% loop $Children %>
-                                        <li class="submenu__item">
-                                            <a href="$Link" class="submenu__link">$MenuTitle</a>
-                                        </li>
-                                    <% end_loop %>
-                                </ul>
-                            <% end_if %>
-                        </li>
-                    <% end_loop %>
-                </ul>
-            </nav>
-        </div>
-        <%-- SiteConfig Header Button Link  --%>
+        <%-- Desktop menu --%>
+        <nav class="nav nav--desktop" aria-label="Main">
+            <ul class="menu">
+                <% loop $MenuSet('MainMenu').MenuItems %>
+                    <li class="menu__item<% if $Children %> menu__item--has-submenu<% end_if %>">
+                        <a href="$Link" class="menu__link" <% if $IsNewWindow %>target="_blank" rel="noopener noreferrer"<% end_if %>>$MenuTitle</a>
+                        <% if $Children %>
+                            <ul class="submenu">
+                                <% loop $Children %>
+                                    <li class="submenu__item">
+                                        <a href="$Link" class="submenu__link">$MenuTitle</a>
+                                    </li>
+                                <% end_loop %>
+                            </ul>
+                        <% end_if %>
+                    </li>
+                <% end_loop %>
+            </ul>
+        </nav>
+
+        <%-- SiteConfig header button link --%>
         <% with $SiteConfig  %>
             <% if $HeaderButton %>
-                <div class="header-button">
-                    <button class="button">$HeaderButton</button>
-                </div>
+                <a class="header__button button button--header<% if $HeaderButton.OpenInNew %> button--external<% end_if %>"
+                   href="$HeaderButton.URL"
+                   <% if $HeaderButton.OpenInNew %>target="_blank" rel="noopener noreferrer"<% end_if %>
+                >
+                    $HeaderButton.Title
+                </a>
             <% end_if %>
         <% end_with %>
+
         <%-- Mobile menu controls --%>
         <button class="hamburger" type="button" aria-label="Toggle menu" data-toggle-mobile-menu>
             <span class="hamburger__lines"></span>
@@ -42,7 +45,7 @@
         <div class="modal__background" data-toggle-mobile-menu></div>
 
         <%-- Mobile menu --%>
-        <nav class="nav nav--mobile">
+        <nav class="nav nav--mobile" aria-label="Main">
             <a href="$BaseHref" class="logo logo--mobile">
                 <img class="logo__image" src="$resourceURL('themes/startup/images/logo--black.svg')" alt="{$SiteConfig.Title}">
             </a>
@@ -70,12 +73,15 @@
                     </li>
                 <% end_loop %>
             </ul>
-            <%-- SiteConfig Mobile nav Header Button Link  --%>
+            <%-- SiteConfig mobile nav header button link  --%>
             <% with $SiteConfig  %>
                 <% if $HeaderButton %>
-                    <div class="mobile-menu__button">
-                        <button type="button" class="button">$HeaderButton</button>
-                    </div>
+                    <a class="mobile-menu__button button<% if $HeaderButton.OpenInNew %> button--external<% end_if %>"
+                       href="$HeaderButton.URL"
+                       <% if $HeaderButton.OpenInNew %>target="_blank" rel="noopener noreferrer"<% end_if %>
+                    >
+                        $HeaderButton.Title
+                    </a>
                 <% end_if %>
             <% end_with %>
         </nav>
