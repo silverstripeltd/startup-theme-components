@@ -7,7 +7,9 @@ use Heyday\MenuManager\MenuItem;
 use Heyday\MenuManager\MenuSet;
 use Page;
 use SilverStripe\CMS\Controllers\RootURLController;
+use SilverStripe\LinkField\Models\ExternalLink;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\ValidationException;
 use SilverStripe\SiteConfig\SiteConfig;
@@ -27,7 +29,11 @@ class DefaultRecordsExtension extends DataExtension
         // On initial dev-build, the default SiteConfig is created.
         // So provided SiteConfig doesn't exist, we know this is the first dev/build on a fresh DB,
         // and we want to create default pages, menus and blocks.
+
         if (!SiteConfig::get()->first()) {
+            // Create site config
+            $this->createSiteConfig();
+
             // Create Home page
             $this->createHomePage();
 
@@ -83,6 +89,37 @@ class DefaultRecordsExtension extends DataExtension
                 $footerMenu->MenuItems()->add($item);
             }
         }
+    }
+
+    /**
+     * Create site config
+     *
+     * The site config normally gets created within the SiteConfig requireDefaultRecords() hook which
+     * runs after this extension. As we require a site config record to attach a header button to,
+     * it must be created here.
+     *
+     * @return void
+     * @throws ValidationException
+     */
+    public function createSiteConfig(): void
+    {
+        $siteConfig = SiteConfig::create();
+        $siteConfig->write();
+        DB::alteration_message("Added default site config", "created");
+
+        // Create header button link
+        $headerButton = ExternalLink::create([
+            'LinkText' => 'Dev docs',
+            'ExternalUrl' => 'https://docs.silverstripe.org/',
+            'OpenInNew' => true,
+        ]);
+        $headerButton->write();
+        $headerButton->publishRecursive();
+
+        $siteConfig = DataObject::get_one(SiteConfig::class);
+        $siteConfig->HeaderButtonID = $headerButton->ID;
+        $siteConfig->write();
+        $headerButton->publishRecursive();
     }
 
     /**
