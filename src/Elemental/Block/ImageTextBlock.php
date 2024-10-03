@@ -16,13 +16,13 @@ class ImageTextBlock extends BaseElement {
 
     private static string $icon = 'font-icon-block-file';
 
-    private static string $description = 'Image Text Block';
+    private static string $description = 'A block to display an image and text';
 
     private static string $table_name = 'ImageTextBlock';
 
-    private static string $singular_name = 'Image Text Block';
+    private static string $singular_name = 'image and text block';
 
-    private static string $plural_name = 'Image Text Block';
+    private static string $plural_name = 'image and text blocks';
 
     private static bool $inline_editable = false;
 
@@ -41,7 +41,8 @@ class ImageTextBlock extends BaseElement {
         'ImageTextBlockImage',
     ];
 
-    public function getCMSFields(): FieldList {
+    public function getCMSFields(): FieldList
+    {
         $fields = parent::getCMSFields();
 
         $fields->removeByName(
@@ -61,25 +62,37 @@ class ImageTextBlock extends BaseElement {
         return $fields;
     }
 
-    public function getCMSCompositeValidator(): CompositeValidator {
+    public function getCMSCompositeValidator(): CompositeValidator
+    {
         $composite = parent::getCMSCompositeValidator();
 
         $requiredFields = [
             'ImageTextBlockImage',
-            'Title',
+            'Title'
         ];
         $composite->addValidator(RequiredFields::create($requiredFields));
 
         return $composite;
     }
 
-    public function getType(): string {
-        return $this->config()->get('singular_name');
+    public function getType(): string
+    {
+        return _t(__CLASS__ . '.BlockType', 'Image and text');
     }
 
-    public function getVariantClass(): string {
+    public function getVariantClass(): string
+    {
         $variantClass = 'image-text-block--%s';
         return sprintf($variantClass, strtolower($this->ImagePosition));
+    }
+
+    public function getShowH1Title(): bool
+    {
+        $ownerPage = $this->Parent()->getOwnerPage();
+        $showHero = $ownerPage->ShowHero;
+        $firstBlock = $ownerPage->ElementalArea()->Elements()->first();
+
+        return $firstBlock instanceof $this && $this->Sort === 1 && !$showHero;
     }
 
 }
