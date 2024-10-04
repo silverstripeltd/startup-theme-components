@@ -1,5 +1,5 @@
-<div class="image-text-block">
-    <div class="container image-text-block__container $VariantClass">
+<div class="container">
+    <div class="image-text-block $VariantClass">
         <div class="image-text-block__left-column">
             <picture>
                 <source media="(min-width: 1600px)" srcset="$ImageTextBlockImage.FocusFill(882, 710).Link"/>
@@ -11,9 +11,9 @@
         </div>
         <div class="image-text-block__right-column">
             <% if $ShowH1Title %>
-                <h1 class="image-text-block__heading">$Title</h1>
+                <h1 class="block__h1">$Title</h1>
             <% else %>
-                <h2 class="image-text-block__heading">$Title</h2>
+                <h2 class="block__h2">$Title</h2>
             <% end_if %>
 
             <% if $Content %>
