@@ -2,10 +2,9 @@
     <div class="container image-text-block__container $VariantClass">
         <div class="image-text-block__left-column">
             <picture>
-                <source media="(min-width: 1600px)" srcset="$ImageTextBlockImage.FocusFill(882, 710).Link"/>
-                <source media="(min-width: 1200px)" srcset="$ImageTextBlockImage.FocusFill(780, 890).Link"/>
-                <source media="(min-width: 576px)" srcset="$ImageTextBlockImage.FocusFill(530, 500).Link"/>
-                <source sizes="calc(100vw)" srcset="$ImageTextBlockImage.FocusFill(575, 425).Link"/>
+                <source media="(min-width: 1600px)" srcset="$ImageTextBlockImage.FocusFill(882, 710).URL"/>
+                <source media="(min-width: 1200px)" srcset="$ImageTextBlockImage.FocusFill(780, 890).URL"/>
+                <source media="(min-width: 576px)" srcset="$ImageTextBlockImage.FocusFill(530, 500).URL"/>
                 $ImageTextBlockImage.LazyLoad(false)
             </picture>
         </div>

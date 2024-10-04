@@ -6,14 +6,19 @@ use DNADesign\Elemental\Models\ElementContent;
 use Heyday\MenuManager\MenuItem;
 use Heyday\MenuManager\MenuSet;
 use Page;
+use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Controllers\RootURLController;
+use SilverStripe\Control\Director;
+use SilverStripe\Core\Manifest\ModuleResourceLoader;
 use SilverStripe\LinkField\Models\ExternalLink;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\ValidationException;
 use SilverStripe\SiteConfig\SiteConfig;
+use SilverStripe\StartupThemeComponents\Elemental\Block\ImageTextBlock;
 use SilverStripe\StartupThemeComponents\PageTypes\BlocksPage;
+use SilverStripe\View\ThemeResourceLoader;
 
 class DefaultRecordsExtension extends DataExtension
 {
@@ -36,6 +41,9 @@ class DefaultRecordsExtension extends DataExtension
 
             // Create Home page
             $this->createHomePage();
+
+            // Create Block Page
+            $this->createBlockPage();
 
             // Create pages (adding pages here interferes with the core SiteTree logic which will create the About and
             // Contact pages based on the current page count, so we'll add our own ones here.
@@ -176,4 +184,82 @@ class DefaultRecordsExtension extends DataExtension
         $block->write();
         $page->publishRecursive();
     }
+
+    public function createBlockPage(): void
+    {
+        $blockPage = BlocksPage::create([
+            'Title' => 'Block',
+            'URLSegment' => 'block-page',
+            'ShowHero' => '1',
+        ]);
+
+        $blockPage->write();
+        $blockPage->publishRecursive();
+
+        DB::alteration_message('Block page created', 'created');
+
+        // Create Image & Text Block
+        $blockPage = BlocksPage::get()->filter('Title', 'Block')->first();
+
+        $optionalButtonLink = ExternalLink::create([
+            'LinkText' => 'Optional Button',
+            'ExternalUrl' => 'https://docs.silverstripe.org/',
+            'OpenInNew' => true,
+        ]);
+
+        $optionalButtonLink->write();
+        $optionalButtonLink->publishRecursive();
+
+        $imageTextBlocks = [
+            [
+                'imagePath' => 'themes/startup/images/block1-image.webp',
+                'Title' => 'Block heading 1 with words',
+                'ImagePosition' => 'Right',
+                'CTAButtonLinkID' => true,
+                'order' => 1,
+            ],
+            [
+                'imagePath' => 'themes/startup/images/block2-image.webp',
+                'Title' => 'Block heading 1 with words',
+                'ImagePosition' => 'Left',
+                'CTAButtonLinkID' => true,
+                'order' => 2,
+            ],
+            [
+                'imagePath' => 'themes/startup/images/block3-image.webp',
+                'Title' => 'Block heading 2 with words',
+                'ImagePosition' => 'Right',
+                'CTAButtonLinkID' => false,
+                'order' => 3,
+            ],
+        ];
+
+        foreach ($imageTextBlocks as $imageTextBlock) {
+            $imagePath = Director::getAbsFile($imageTextBlock['imagePath']);
+            $image = Image::create();
+            $image->setFromString(file_get_contents($imagePath), basename($imagePath));
+            $image->write();
+
+            $block = ImageTextBlock::create([
+                'ParentID' => $blockPage->ElementalAreaID,
+                'Title' => $imageTextBlock['Title'],
+                'ShowTitle' => '1',
+                'Sort' => $imageTextBlock['Sort'],
+                'ImagePosition' => $imageTextBlock['ImagePosition'],
+                'Content' => '
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non est elit. Etiam purus enim,
+                 maximus a massa non, sagittis pulvinar eros. Fusce quis libero venenatis, maximus turpis id, lobortis
+                  purus.</p>
+                <p>Sed et dolor non libero egestas ultricies id eget est. Mauris nec laoreet dui, sed dapibus arcu.
+                 Suspendisse ullamcorper augue massa.</p>
+                ',
+                'CTAButtonLinkID' => $imageTextBlock['CTAButtonLinkID'] ? $optionalButtonLink->ID:'',
+                'ImageTextBlockImageID' => $image->ID,
+            ]);
+            $block->write();
+            $block->publishRecursive();
+        }
+        DB::alteration_message('Image & Text Block', 'created');
+    }
 }
+
