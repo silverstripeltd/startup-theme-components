@@ -4,7 +4,7 @@
             <div class="container">
                 $Breadcrumbs
                 <h1 class="page__title">$Title</h1>
-                <% if preg_replace('/\s+/', '', $Intro) %>
+                <% if $Intro %>
                     <p class="page__intro">$Intro</p>
                 <% end_if %>
             </div>
