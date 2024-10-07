@@ -1,13 +1,5 @@
 <div class="container">
     <div class="image-text-block $VariantClass">
-        <div class="image-text-block__left-column">
-            <picture>
-                <source media="(min-width: 1600px)" srcset="$ImageTextBlockImage.FocusFill(882, 710).URL"/>
-                <source media="(min-width: 1200px)" srcset="$ImageTextBlockImage.FocusFill(780, 890).URL"/>
-                <source media="(min-width: 576px)" srcset="$ImageTextBlockImage.FocusFill(530, 500).URL"/>
-                $ImageTextBlockImage.LazyLoad(false)
-            </picture>
-        </div>
         <div class="image-text-block__right-column">
             <% if $ShowH1Title %>
                 <h1 class="block__h1">$Title</h1>
@@ -28,6 +20,14 @@
                     $CTAButtonLink.Title
                 </a>
             <% end_if %>
+        </div>
+        <div class="image-text-block__left-column">
+            <picture>
+                <source media="(min-width: 992px)" srcset="$ImageTextBlockImage.ScaleWidth(885).URL"/>
+                <source media="(min-width: 750px)" srcset="$ImageTextBlockImage.ScaleWidth(675).URL"/>
+                <source media="(min-width: 450px)" srcset="$ImageTextBlockImage.ScaleWidth(1065).URL"/>
+                <img src="$ImageTextBlockImage.ScaleWidth(615).URL" alt="$ImageTextBlockImage.Title" />
+            </picture>
         </div>
     </div>
 </div>

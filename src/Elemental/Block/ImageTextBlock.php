@@ -12,7 +12,8 @@ use SilverStripe\Forms\RequiredFields;
 use SilverStripe\LinkField\Form\LinkField;
 use SilverStripe\LinkField\Models\Link;
 
-class ImageTextBlock extends BaseElement {
+class ImageTextBlock extends BaseElement
+{
 
     private static string $icon = 'font-icon-block-file';
 
@@ -51,7 +52,11 @@ class ImageTextBlock extends BaseElement {
             ]
         );
 
-        $fields->insertBefore('ImagePosition', UploadField::create('ImageTextBlockImage', 'image'));
+        $uploadField = UploadField::create('ImageTextBlockImage', 'image')
+            ->setDescription('Max file upload size: 2MB');
+        $uploadField->getValidator()->setAllowedMaxFileSize(2 * 1024 * 1024);
+
+        $fields->insertBefore('ImagePosition', $uploadField);
         $fields->addFieldsToTab(
             'Root.Main',
             [

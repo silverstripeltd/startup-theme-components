@@ -42,8 +42,6 @@ class DefaultRecordsExtension extends DataExtension
             // Create Home page
             $this->createHomePage();
 
-            // Create Block Page
-            $this->createBlockPage();
 
             // Create pages (adding pages here interferes with the core SiteTree logic which will create the About and
             // Contact pages based on the current page count, so we'll add our own ones here.
@@ -152,13 +150,49 @@ class DefaultRecordsExtension extends DataExtension
         $page->publishSingle();
         DB::alteration_message('Home page created', 'created');
 
-        // Create content block
         $page = Page::get()->filter('Title', 'Home')->first();
+
+        // create a default image
+        $imagePath = Director::getAbsFile('themes/startup/images/block1-image.webp');
+        $image = Image::create();
+        $image->setFromString(file_get_contents($imagePath), basename($imagePath));
+        $image->write();
+        $image->publishFile();
+
+        // create external link
+        $optionalButtonLink = ExternalLink::create([
+            'LinkText' => 'Check out the features',
+            'ExternalUrl' => 'https://docs.silverstripe.org/',
+            'OpenInNew' => false,
+        ]);
+        $optionalButtonLink->write();
+        $optionalButtonLink->publishRecursive();
+
+        // create Image & Text Block
+        $imageTextBlock = ImageTextBlock::create([
+            'ParentID' => $page->ElementalAreaID,
+            'Title' => 'Welcome to Silverstripe CMS Sandbox',
+            'ShowTitle' => '1',
+            'ImagePosition' => 'Right',
+            'Sort' => 1,
+            'Content' => '
+                <p>Silverstripe CMS works to empower your teams and your customers by keeping things clean, simple,
+                 and easy-to-use. More words here.</p>
+                ',
+            'ImageTextBlockImageID' => $image->ID,
+            'CTAButtonLinkID' => $optionalButtonLink->ID,
+        ]);
+
+        $imageTextBlock->write();
+        $imageTextBlock->publishRecursive();
+
+        // Create content block
         $block = ElementContent::create([
             'TopPageID' => $page->ID,
             'ParentID' => $page->ElementalAreaID,
             'Title' => 'Block heading 2',
             'ShowTitle' => '1',
+            'Sort' => 2,
             'BlockBackgroundColor' => 'pale-grey',
             'BlockNarrowContentWidth' => '1',
             'HTML' => '
@@ -185,64 +219,5 @@ class DefaultRecordsExtension extends DataExtension
         $page->publishRecursive();
     }
 
-    public function createBlockPage(): void
-    {
-        $blockPage = BlocksPage::create([
-            'Title' => 'Block',
-            'URLSegment' => 'block-page',
-            'ShowHero' => '1',
-        ]);
-
-        $blockPage->write();
-        $blockPage->publishRecursive();
-
-        DB::alteration_message('Block page created', 'created');
-
-        // Create Image & Text Block
-        $blockPage = BlocksPage::get()->filter('Title', 'Block')->first();
-
-        $optionalButtonLink = ExternalLink::create([
-            'LinkText' => 'Check out the features',
-            'ExternalUrl' => 'https://docs.silverstripe.org/',
-            'OpenInNew' => false,
-        ]);
-        $optionalButtonLink->write();
-        $optionalButtonLink->publishRecursive();
-
-        $imageTextBlocks = [
-            [
-                'imagePath' => 'themes/startup/images/block1-image.webp',
-                'Title' => 'Welcome to Silverstripe CMS Sandbox',
-                'ImagePosition' => 'Right',
-                'CTAButtonLinkID' => true,
-                'order' => 1,
-            ]
-        ];
-
-        foreach ($imageTextBlocks as $imageTextBlock) {
-            $imagePath = Director::getAbsFile($imageTextBlock['imagePath']);
-            $image = Image::create();
-            $image->setFromString(file_get_contents($imagePath), basename($imagePath));
-            $image->write();
-
-            $block = ImageTextBlock::create([
-                'ParentID' => $blockPage->ElementalAreaID,
-                'Title' => $imageTextBlock['Title'],
-                'ShowTitle' => '1',
-                'Sort' => $imageTextBlock['Sort'],
-                'ImagePosition' => $imageTextBlock['ImagePosition'],
-                'Content' => '
-                <p>Silverstripe CMS works to empower your teams and your customers by keeping things clean, simple,
-                 and easy-to-use. More words here.</p>
-                ',
-                'CTAButtonLinkID' => $imageTextBlock['CTAButtonLinkID'] ? $optionalButtonLink->ID:'',
-                'ImageTextBlockImageID' => $image->ID,
-            ]);
-            $block->write();
-            $block->publishRecursive();
-        }
-        DB::alteration_message('Image & Text Block', 'created');
-    }
-    
 }
 
