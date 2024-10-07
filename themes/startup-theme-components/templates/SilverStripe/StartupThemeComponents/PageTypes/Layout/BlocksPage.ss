@@ -4,6 +4,9 @@
             <div class="container">
                 $Breadcrumbs
                 <h1 class="page__title">$Title</h1>
+                <% if $Intro %>
+                    <p class="page__intro">$Intro</p>
+                <% end_if %>
             </div>
         </div>
     <% end_if %>

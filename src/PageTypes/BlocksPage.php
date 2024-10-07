@@ -4,6 +4,7 @@ namespace SilverStripe\StartupThemeComponents\PageTypes;
 
 use Page;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\TextareaField;
 
 class BlocksPage extends Page
 {
@@ -14,6 +15,7 @@ class BlocksPage extends Page
 
     private static array $db = [
         'ShowHero' => 'Boolean',
+        'Intro' => 'Text',
     ];
 
     private static array $defaults = [
@@ -31,6 +33,15 @@ class BlocksPage extends Page
                 'Show Hero',
             )->setDescription('Show hero area containing breadcrumbs and page name.'),
         );
+
+        $fields->insertAfter(
+            'ShowHero',
+            TextareaField::create(
+                'Intro',
+                'Summary Intro',
+            )->setDescription('Summary introduction in the hero area.'),
+        );
+
         return $fields;
     }
 
