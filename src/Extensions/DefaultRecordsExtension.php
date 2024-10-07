@@ -202,36 +202,21 @@ class DefaultRecordsExtension extends DataExtension
         $blockPage = BlocksPage::get()->filter('Title', 'Block')->first();
 
         $optionalButtonLink = ExternalLink::create([
-            'LinkText' => 'Optional Button',
+            'LinkText' => 'Check out the features',
             'ExternalUrl' => 'https://docs.silverstripe.org/',
-            'OpenInNew' => true,
+            'OpenInNew' => false,
         ]);
-
         $optionalButtonLink->write();
         $optionalButtonLink->publishRecursive();
 
         $imageTextBlocks = [
             [
                 'imagePath' => 'themes/startup/images/block1-image.webp',
-                'Title' => 'Block heading 1 with words',
+                'Title' => 'Welcome to Silverstripe CMS Sandbox',
                 'ImagePosition' => 'Right',
                 'CTAButtonLinkID' => true,
                 'order' => 1,
-            ],
-            [
-                'imagePath' => 'themes/startup/images/block2-image.webp',
-                'Title' => 'Block heading 1 with words',
-                'ImagePosition' => 'Left',
-                'CTAButtonLinkID' => true,
-                'order' => 2,
-            ],
-            [
-                'imagePath' => 'themes/startup/images/block3-image.webp',
-                'Title' => 'Block heading 2 with words',
-                'ImagePosition' => 'Right',
-                'CTAButtonLinkID' => false,
-                'order' => 3,
-            ],
+            ]
         ];
 
         foreach ($imageTextBlocks as $imageTextBlock) {
@@ -247,11 +232,8 @@ class DefaultRecordsExtension extends DataExtension
                 'Sort' => $imageTextBlock['Sort'],
                 'ImagePosition' => $imageTextBlock['ImagePosition'],
                 'Content' => '
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non est elit. Etiam purus enim,
-                 maximus a massa non, sagittis pulvinar eros. Fusce quis libero venenatis, maximus turpis id, lobortis
-                  purus.</p>
-                <p>Sed et dolor non libero egestas ultricies id eget est. Mauris nec laoreet dui, sed dapibus arcu.
-                 Suspendisse ullamcorper augue massa.</p>
+                <p>Silverstripe CMS works to empower your teams and your customers by keeping things clean, simple,
+                 and easy-to-use. More words here.</p>
                 ',
                 'CTAButtonLinkID' => $imageTextBlock['CTAButtonLinkID'] ? $optionalButtonLink->ID:'',
                 'ImageTextBlockImageID' => $image->ID,
@@ -261,5 +243,6 @@ class DefaultRecordsExtension extends DataExtension
         }
         DB::alteration_message('Image & Text Block', 'created');
     }
+    
 }
 
