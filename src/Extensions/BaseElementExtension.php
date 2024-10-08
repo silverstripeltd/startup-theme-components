@@ -2,11 +2,11 @@
 
 namespace SilverStripe\StartupTheme;
 
+use SilverStripe\Core\Extension;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\ORM\DataExtension;
 
-class BaseElementExtension extends DataExtension
+class BaseElementExtension extends Extension
 {
     private static array $db = [
         'BlockBackgroundColor' => 'Varchar(255)',

@@ -2,11 +2,11 @@
 
 namespace SilverStripe\StartupTheme;
 
+use SilverStripe\Core\Extension;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\ORM\DataExtension;
 
-class ElementContentExtension extends DataExtension
+class ElementContentExtension extends Extension
 {
     private static array $db = [
         'BlockNarrowContentWidth' => 'Varchar(255)',
