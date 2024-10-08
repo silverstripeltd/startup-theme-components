@@ -24,3 +24,7 @@ SilverStripe\StartupThemeComponents\PageTypes\BlocksPage:
   extensions:
     - DNADesign\Elemental\Extensions\ElementalPageExtension
 
+Page:
+  extensions:
+    - SilverStripe\StartupTheme\PageExtension
+
