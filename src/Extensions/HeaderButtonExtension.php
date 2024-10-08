@@ -2,12 +2,12 @@
 
 namespace SilverStripe\StartupTheme;
 
+use SilverStripe\Core\Extension;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\LinkField\Form\LinkField;
 use SilverStripe\LinkField\Models\Link;
-use SilverStripe\ORM\DataExtension;
 
-class HeaderButtonExtension extends DataExtension {
+class HeaderButtonExtension extends Extension {
 
     private static array $has_one = [
         'HeaderButton' => Link::class

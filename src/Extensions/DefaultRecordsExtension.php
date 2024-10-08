@@ -9,18 +9,16 @@ use Page;
 use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Controllers\RootURLController;
 use SilverStripe\Control\Director;
-use SilverStripe\Core\Manifest\ModuleResourceLoader;
+use SilverStripe\Core\Extension;
 use SilverStripe\LinkField\Models\ExternalLink;
-use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\ValidationException;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\StartupThemeComponents\Elemental\Block\ImageTextBlock;
 use SilverStripe\StartupThemeComponents\PageTypes\BlocksPage;
-use SilverStripe\View\ThemeResourceLoader;
 
-class DefaultRecordsExtension extends DataExtension
+class DefaultRecordsExtension extends Extension
 {
     /**
      * The Startup theme ships with some specific content, so we'll create this on creation of the SiteConfig.
@@ -29,8 +27,6 @@ class DefaultRecordsExtension extends DataExtension
      */
     public function requireDefaultRecords(): void
     {
-        parent::requireDefaultRecords();
-
         // On initial dev-build, the default SiteConfig is created.
         // So provided SiteConfig doesn't exist, we know this is the first dev/build on a fresh DB,
         // and we want to create default pages, menus and blocks.

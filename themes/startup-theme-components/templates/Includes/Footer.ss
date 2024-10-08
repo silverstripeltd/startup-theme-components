@@ -3,7 +3,12 @@
         <nav aria-label="Footer">
             <ul class="footer-menu">
                 <li class="footer-menu__item footer-menu__item--copyright">
-                    &copy; $CurrentDatetime.Format("y") $SiteConfig.Title
+                    &copy; $now.Format("y")
+                    <% if $SiteConfig.FooterCopyright %> 
+                        $SiteConfig.FooterCopyright
+                    <% else %>
+                        $SiteConfig.Title
+                    <% end_if %>
                 </li>
                 <% loop $MenuSet('FooterMenu').MenuItems %>
                     <li class="footer-menu__item">

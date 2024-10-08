@@ -3,7 +3,7 @@
 namespace SilverStripe\StartupThemeComponents\PageTypes;
 
 use Page;
-use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\CheckboxSetField;
 use SilverStripe\Forms\TextareaField;
 
 class BlocksPage extends Page
@@ -26,12 +26,17 @@ class BlocksPage extends Page
     {
         $fields = parent::getCMSFields();
 
+        $fields->removeByName('ShowSiblingMenu');
+
         $fields->insertAfter(
             'MenuTitle',
-            CheckboxField::create(
+            CheckboxSetField::create(
                 'ShowHero',
                 'Show Hero',
-            )->setDescription('Show hero area containing breadcrumbs and page name.'),
+                [
+                    '1' => 'Show hero area containing breadcrumbs and page name',
+                ]
+            )
         );
 
         $fields->insertAfter(
@@ -39,7 +44,7 @@ class BlocksPage extends Page
             TextareaField::create(
                 'Intro',
                 'Summary Intro',
-            )->setDescription('Summary introduction in the hero area.'),
+            )->setDescription('Summary introduction in the hero area. Only visible if Show Hero is ticked.'),
         );
 
         return $fields;
