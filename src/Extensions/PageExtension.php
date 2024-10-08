@@ -29,7 +29,7 @@ class PageExtension extends Extension
             )->setDescription('Summary introduction above the content.'),
         );
 
-        $fields->insertAfter(
+        $fields->insertBefore(
             'Content',
             CheckboxSetField::create(
                 'ShowSiblingMenu',
@@ -40,6 +40,5 @@ class PageExtension extends Extension
             )
         );
     }
-
 
 }
