@@ -13,7 +13,7 @@
             </ul>
         </nav>
         <a href="$baseURL" class="footer__logo">
-            <img src="$resourceURL('themes/startup/images/logo--silverstripe-cms.svg')" alt="{$SiteConfig.Title}">
+            <img src="$resourceURL('themes/startup/images/logo--silverstripe-cms.svg')" width="176" height="21" alt="{$SiteConfig.Title}">
         </a>
     </div>
 </footer>
