@@ -19,6 +19,7 @@ SilverStripe\SiteConfig\SiteConfig:
   extensions:
     - SilverStripe\StartupTheme\DefaultRecordsExtension
     - SilverStripe\StartupTheme\HeaderButtonExtension
+    - SilverStripe\StartupTheme\SiteConfigExtension
 
 SilverStripe\StartupThemeComponents\PageTypes\BlocksPage:
   extensions:
@@ -27,4 +28,3 @@ SilverStripe\StartupThemeComponents\PageTypes\BlocksPage:
 Page:
   extensions:
     - SilverStripe\StartupTheme\PageExtension
-
