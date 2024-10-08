@@ -42,7 +42,6 @@ class DefaultRecordsExtension extends DataExtension
             // Create Home page
             $this->createHomePage();
 
-
             // Create pages (adding pages here interferes with the core SiteTree logic which will create the About and
             // Contact pages based on the current page count, so we'll add our own ones here.
             $pages = [
@@ -143,6 +142,7 @@ class DefaultRecordsExtension extends DataExtension
         $page = BlocksPage::create([
             'Title' => 'Home',
             'URLSegment' => RootURLController::config()->get('default_homepage_link'),
+            'MetaDescription' => 'Welcome to Silverstripe CMS Sandbox',
             'ShowHero' => '0',
             'Sort' => '1',
         ]);
@@ -150,25 +150,34 @@ class DefaultRecordsExtension extends DataExtension
         $page->publishSingle();
         DB::alteration_message('Home page created', 'created');
 
+        // Create various blocks for the Home page
         $page = Page::get()->filter('Title', 'Home')->first();
+        $this->createTextImageBlock($page);
+        $this->createContentBlock($page);
 
-        // create a default image
+        // Publish Home page
+        $page->publishRecursive();
+    }
+
+    public function createTextImageBlock($page): void
+    {
+        // Create an image
         $imagePath = Director::getAbsFile('themes/startup/images/block1-image.webp');
         $image = Image::create();
         $image->setFromString(file_get_contents($imagePath), basename($imagePath));
         $image->write();
         $image->publishFile();
 
-        // create external link
-        $optionalButtonLink = ExternalLink::create([
+        // Create external link
+        $link = ExternalLink::create([
             'LinkText' => 'Check out the features',
             'ExternalUrl' => 'https://docs.silverstripe.org/',
             'OpenInNew' => false,
         ]);
-        $optionalButtonLink->write();
-        $optionalButtonLink->publishRecursive();
+        $link->write();
+        $link->publishRecursive();
 
-        // create Image & Text Block
+        // Create image and text block
         $imageTextBlock = ImageTextBlock::create([
             'ParentID' => $page->ElementalAreaID,
             'Title' => 'Welcome to Silverstripe CMS Sandbox',
@@ -177,15 +186,18 @@ class DefaultRecordsExtension extends DataExtension
             'Sort' => 1,
             'Content' => '
                 <p>Silverstripe CMS works to empower your teams and your customers by keeping things clean, simple,
-                 and easy-to-use. More words here.</p>
+                 and easy-to-use.</p>
                 ',
             'ImageTextBlockImageID' => $image->ID,
-            'CTAButtonLinkID' => $optionalButtonLink->ID,
+            'CTAButtonLinkID' => $link->ID,
         ]);
 
         $imageTextBlock->write();
         $imageTextBlock->publishRecursive();
+    }
 
+    public function createContentBlock($page): void
+    {
         // Create content block
         $block = ElementContent::create([
             'TopPageID' => $page->ID,
@@ -216,8 +228,7 @@ class DefaultRecordsExtension extends DataExtension
                 ',
         ]);
         $block->write();
-        $page->publishRecursive();
+        $block->publishRecursive();
     }
-
 }
 

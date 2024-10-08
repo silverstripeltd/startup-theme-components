@@ -15,7 +15,7 @@ use SilverStripe\LinkField\Models\Link;
 class ImageTextBlock extends BaseElement
 {
 
-    private static string $icon = 'font-icon-block-file';
+    private static string $icon = 'font-icon-block-promo-3';
 
     private static string $description = 'A block to display an image and text';
 
@@ -85,19 +85,32 @@ class ImageTextBlock extends BaseElement
         return _t(__CLASS__ . '.BlockType', 'Image and text');
     }
 
-    public function getVariantClass(): string
+    protected function provideBlockSchema(): array
     {
-        $variantClass = 'image-text-block--%s';
-        return sprintf($variantClass, strtolower($this->ImagePosition));
+        $blockSchema = parent::provideBlockSchema();
+
+        $image = $this->ImageTextBlockImage();
+
+        if ($image && $image->exists() && $image->getIsImage()) {
+            $blockSchema['fileURL'] = $image->CMSThumbnail()->getURL();
+            $blockSchema['fileTitle'] = $image->getTitle();
+        }
+
+        $blockSchema['content'] = $this->dbObject('Content')->Summary(20);
+
+        return $blockSchema;
     }
 
-    public function getShowH1Title(): bool
+    /**
+     * Helper method to provide CSS class for block variant
+     * Variant based on image position
+     */
+    public function getBlockVariantClass(): string
     {
-        $ownerPage = $this->Parent()->getOwnerPage();
-        $showHero = $ownerPage->ShowHero;
-        $firstBlock = $ownerPage->ElementalArea()->Elements()->first();
+        $block = $this->getBlockNameClass();
+        $variant = strtolower($this->ImagePosition);
 
-        return $firstBlock instanceof $this && $this->Sort === 1 && !$showHero;
+        return sprintf('%s--%s', $block, $variant);
     }
 
 }
