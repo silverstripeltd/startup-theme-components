@@ -15,6 +15,14 @@ Heyday\MenuManager\MenuSet:
     - MainMenu
     - FooterMenu
 
+SilverStripe\AssetAdmin\Forms\FileFormFactory:
+  extensions:
+    - SilverStripe\StartupTheme\FileFormFactoryExtension
+
+SilverStripe\Assets\Image:
+  extensions:
+    - SilverStripe\StartupTheme\ImageExtension
+
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
     - SilverStripe\StartupTheme\DefaultRecordsExtension
