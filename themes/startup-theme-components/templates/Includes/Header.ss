@@ -27,7 +27,7 @@
         <%-- SiteConfig header button link --%>
         <% with $SiteConfig  %>
             <% if $HeaderButton %>
-                <a class="header__button button button--header<% if $HeaderButton.OpenInNew %> button--external<% end_if %>"
+                <a class="button button--secondary-on-dark<% if $HeaderButton.OpenInNew %> button--external<% end_if %> header__button"
                    href="$HeaderButton.URL"
                    <% if $HeaderButton.OpenInNew %>target="_blank" rel="noopener noreferrer"<% end_if %>
                 >

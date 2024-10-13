@@ -2,11 +2,13 @@
     <% if $ShowHero %>
         <div class="hero">
             <div class="container">
-                $Breadcrumbs
-                <h1 class="page__title">$Title</h1>
-                <% if $Intro %>
-                    <p class="page__intro">$Intro</p>
-                <% end_if %>
+                <div class="hero__inner">
+                    $Breadcrumbs
+                    <h1 class="hero__title">$Title</h1>
+                    <% if $Intro %>
+                        <p class="intro hero__intro">$Intro</p>
+                    <% end_if %>
+                </div>
             </div>
         </div>
     <% end_if %>
