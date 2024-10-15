@@ -6,7 +6,7 @@
         <div class="page__content">
             <h1 class="page__title">$Title</h1>
             <% if $Intro %>
-                <p class="page__intro">$Intro</p>
+                <p class="intro page__intro">$Intro</p>
             <% end_if %>
             $Content
         </div>
