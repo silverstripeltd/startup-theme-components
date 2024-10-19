@@ -4,7 +4,7 @@
             <ul class="footer-menu">
                 <li class="footer-menu__item footer-menu__item--copyright">
                     &copy; $now.Format("y")
-                    <% if $SiteConfig.FooterCopyright %> 
+                    <% if $SiteConfig.FooterCopyright %>
                         $SiteConfig.FooterCopyright
                     <% else %>
                         $SiteConfig.Title
@@ -17,8 +17,8 @@
                 <% end_loop %>
             </ul>
         </nav>
-        <a href="$baseURL" class="footer__logo">
-            <img src="$resourceURL('themes/startup/images/logo--silverstripe-cms.svg')" width="176" height="21" alt="{$SiteConfig.Title}">
+        <a href="https://www.silverstripe.org/" class="footer__logo" target="_blank" rel="noopener noreferrer" aria-label="Silverstripe CMS">
+            <img src="$resourceURL('themes/startup/images/logo--silverstripe-cms.svg')" width="176" height="21" alt="">
         </a>
     </div>
 </footer>

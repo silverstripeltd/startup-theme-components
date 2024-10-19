@@ -118,6 +118,10 @@ class DefaultRecordsExtension extends Extension
         $headerButton->publishRecursive();
 
         $siteConfig = DataObject::get_one(SiteConfig::class);
+
+        // Set site config values
+        $siteConfig->Title = 'Startup Theme';
+        $siteConfig->Copyright = 'Silverstripe';
         $siteConfig->HeaderButtonID = $headerButton->ID;
         $siteConfig->write();
         $headerButton->publishRecursive();
@@ -138,7 +142,7 @@ class DefaultRecordsExtension extends Extension
         $page = BlocksPage::create([
             'Title' => 'Home',
             'URLSegment' => RootURLController::config()->get('default_homepage_link'),
-            'MetaDescription' => 'Welcome to Silverstripe CMS Sandbox',
+            'MetaDescription' => 'Welcome to Silverstripe CMS Startup',
             'ShowHero' => '0',
             'Sort' => '1',
         ]);
