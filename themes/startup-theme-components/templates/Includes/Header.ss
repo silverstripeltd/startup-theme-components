@@ -11,12 +11,12 @@
             <ul class="menu">
                 <% loop $MenuSet('MainMenu').MenuItems %>
                     <li class="menu__item<% if $Children %> menu__item--has-submenu<% end_if %>">
-                        <a href="$Link" class="menu__link" <% if $IsNewWindow %>target="_blank" rel="noopener noreferrer"<% end_if %>>$MenuTitle</a>
+                        <a href="$Link" class="menu__link menu__link--{$LinkingMode}" <% if $IsNewWindow %>target="_blank" rel="noopener noreferrer"<% end_if %>>$MenuTitle</a>
                         <% if $Children %>
                             <ul class="submenu">
                                 <% loop $Children %>
                                     <li class="submenu__item">
-                                        <a href="$Link" class="submenu__link">$MenuTitle</a>
+                                        <a href="$Link" class="submenu__link submenu__link--{$LinkingMode}">$MenuTitle</a>
                                     </li>
                                 <% end_loop %>
                             </ul>
