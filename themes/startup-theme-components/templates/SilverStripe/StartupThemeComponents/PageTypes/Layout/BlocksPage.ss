@@ -1,4 +1,4 @@
-<main>
+<main id="main" tabindex="-1">
     <% if $ShowHero %>
         <div class="hero">
             <div class="container">
