@@ -17,14 +17,14 @@ block types, see the [documentation](https://docs.silverstripe.org/en/5/optional
 
 ### [Silverstripe Menu Manager](https://github.com/WPP-Public/akqa-nz-silverstripe-menumanager)
 Menu Manager lets you define custom menus in the CMS, and use them in templates. STC ships with a Main Menu and a Footer
-Menu. The menus can be edited in the CMS via the "Menus" link in the admin menu. Check the [README](https://github.com/WPP-Public/akqa-nz-silverstripe-menumanager#silverstripe-menu-manager).
+Menu, edit these via the "Menus" link in the CMS admin. For more info on creating new menus, check the [README](https://github.com/WPP-Public/akqa-nz-silverstripe-menumanager#silverstripe-menu-manager).
 
 ## Other customisations
 There have been some other useful extensions added to core Silverstripe models, to demonstrate how their data can be 
 customised.
 
-* **Site Config Extension** - The Site Config has been extended to include fields for the footer copyright line and a 
-custom link button for the site header. Site Config extensions are very useful for providing global data that you'll 
-need to access site wide, and you'll find a Site Config Extension in almost every Silverstripe project.
+* **Site Config Extension** - The Site Config has been extended to include a field for the footer copyright line, and a 
+custom link button for the site header. Site Config extensions are very useful for providing global data, so you'll 
+find one in almost every Silverstripe project.
 * **Page Extension** - An Intro field and option to hide the sibling menu are added to the base Page type.
-* **Image Extension** - Adds field to customise the `alt` attribute for images.
+* **Image Extension** - Adds a field to customise the `alt` attribute for images.
