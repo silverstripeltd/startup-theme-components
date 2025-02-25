@@ -13,15 +13,9 @@
         }
     ],
     "require": {
-        "silverstripe-themes/startup": "dev-main",
+        "silverstripe/startup-theme": "^1",
         "heyday/silverstripe-menumanager": "^4.2",
         "dnadesign/silverstripe-elemental": "^5.2",
         "silverstripe/linkfield": "^4.0"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:silverstripeltd/startup-theme.git"
-        }
-    ]
+    }
 }
