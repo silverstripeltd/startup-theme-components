@@ -1,0 +1,40 @@
+/* Section styles */
+.section {
+    padding: 6rem 0;
+
+    @media (min-width: 992px) {
+        padding: 10rem 0;
+    }
+}
+
+.section--color-white + .section--color-white {
+    padding-top: 0;
+}
+
+.section--color-dark {
+    color: var(--color-white);
+}
+
+.section--color-black {
+    background-color: var(--color-black);
+}
+
+.section--color-charcoal {
+    background-color: var(--color-charcoal);
+}
+
+.section--color-grey {
+    background-color: var(--color-grey);
+}
+
+.section--color-line-grey {
+    background-color: var(--color-line-grey);
+}
+
+.section--color-pale-grey {
+    background-color: var(--color-pale-grey);
+}
+
+.section--color-bright-blue {
+    background-color: var(--color-bright-blue);
+}

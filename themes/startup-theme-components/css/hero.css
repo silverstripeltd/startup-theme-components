@@ -1,0 +1,18 @@
+.hero {
+    background-color: var(--color-pale-grey);
+    padding-bottom: 4rem;
+    padding-top: 5rem;
+
+    @media (min-width: 992px) {
+        padding-bottom: 5rem;
+        padding-top: 7rem;
+    }
+}
+
+.hero__inner {
+    max-width: 77rem;
+}
+
+.hero__intro {
+    margin-top: 2rem;
+}

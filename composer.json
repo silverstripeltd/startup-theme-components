@@ -17,5 +17,11 @@
         "heyday/silverstripe-menumanager": "^4.2",
         "dnadesign/silverstripe-elemental": "^5.2",
         "silverstripe/linkfield": "^4.0"
+    },
+    "extra": {
+        "expose": [
+            "themes/startup-theme-components/css",
+            "themes/startup-theme-components/images"
+        ]
     }
 }
