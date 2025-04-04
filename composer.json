@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "silverstripe/startup-theme": "^1",
+        "silverstripe/startup-theme": "1.x-dev",
         "heyday/silverstripe-menumanager": "^4.2",
         "dnadesign/silverstripe-elemental": "^5.2",
         "silverstripe/linkfield": "^4.0"
@@ -23,5 +23,11 @@
             "themes/startup-theme-components/css",
             "themes/startup-theme-components/images"
         ]
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "silverstripe/vendor-plugin": true
+        }
     }
 }
