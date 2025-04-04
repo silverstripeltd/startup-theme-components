@@ -53,6 +53,8 @@
 }
 
 .image-and-text-block--left {
+    flex-direction: row;
+    
     @media (min-width: 750px) {
         flex-direction: row-reverse;
     }
