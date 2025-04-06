@@ -16,3 +16,7 @@
 .hero__intro {
     margin-top: 2rem;
 }
+
+.page__intro, .page__content img {
+    margin-bottom: 4rem;
+}
