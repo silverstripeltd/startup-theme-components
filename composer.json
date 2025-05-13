@@ -23,5 +23,11 @@
             "themes/startup-theme-components/css",
             "themes/startup-theme-components/images"
         ]
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "silverstripe/vendor-plugin": true
+        }
     }
 }
