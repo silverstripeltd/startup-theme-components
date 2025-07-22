@@ -12,7 +12,7 @@
         </div>
         <% if $PageLevel == 1 && $Children && $ShowSiblingMenu %>
             <% include LevelOneSidebar %>
-        <% else_if $Menu($PageLevel).count > 1 && $ShowSiblingMenu %>
+        <% else_if $PageLevel > 1 && $Menu($PageLevel).count > 1 && $ShowSiblingMenu %>
             <% include Sidebar %>
         <% end_if %>
     </div>
