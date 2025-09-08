@@ -14,14 +14,8 @@
 </head>
 <body <% if $i18nScriptDirection %>dir="$i18nScriptDirection"<% end_if %>>
 <% include Header %>
-<main id="main" class="container container--page" tabindex="-1">
-    <% if not $isHomePage %>
-        $Breadcrumbs
-    <% end_if %>
-    <div class="page">
-        $Layout
-    </div>
-</main>
+
+$Layout
 
 <% include Footer %>
 <script type="module" src="{$themedResourceURL('js/startup.js')}" defer></script>
