@@ -40,11 +40,12 @@
  * Image and text block styles
  */
 .image-and-text-block {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 4rem;
 
     @media (min-width: 750px) {
-        display: flex;
+        flex-direction: row;
     }
 
     @media (min-width: 1170px) {
@@ -52,9 +53,19 @@
     }
 }
 
-.image-and-text-block--left {
+/* Image always on top/first when layout stacks  */
+.image-and-text-block__left-column {
+    order: 1;
+
     @media (min-width: 750px) {
-        flex-direction: row-reverse;
+        order: 3;
+    }
+}
+
+/* Image always first when Left option slected */
+.image-and-text-block--left {
+    .image-and-text-block__left-column {
+        order: 1;
     }
 }
 
@@ -63,6 +74,7 @@
     display: grid;
     flex-shrink: 0;
     gap: 2.5rem;
+    order: 2;
 
     @media (min-width: 750px) {
         width: clamp(34rem, 48%, 50rem);
