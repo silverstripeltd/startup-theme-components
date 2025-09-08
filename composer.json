@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "silverstripe/startup-theme": "dev-design-review",
+        "silverstripe/startup-theme": "^1",
         "heyday/silverstripe-menumanager": "^4.2",
         "dnadesign/silverstripe-elemental": "^5.2",
         "silverstripe/linkfield": "^4.0"
