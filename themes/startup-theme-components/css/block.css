@@ -81,3 +81,7 @@
         gap: 3rem;
     }
 }
+
+.image-and-text-block__button {
+    font-weight: var(--font-weight-semibold);
+}
