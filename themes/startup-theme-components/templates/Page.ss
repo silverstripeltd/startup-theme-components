@@ -13,11 +13,11 @@
     <title><% if $MetaTitle %>$MetaTitle<% else %>$Title<% end_if %> | $SiteConfig.Title</title>
 </head>
 <body <% if $i18nScriptDirection %>dir="$i18nScriptDirection"<% end_if %>>
-<% include Header %>
+    <% include Header %>
 
-$Layout
+    $Layout
 
-<% include Footer %>
-<script type="module" src="{$themedResourceURL('js/startup.js')}" defer></script>
+    <% include Footer %>
+    <script type="module" src="{$themedResourceURL('js/startup.js')}" defer></script>
 </body>
 </html>

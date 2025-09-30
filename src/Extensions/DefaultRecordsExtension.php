@@ -162,8 +162,10 @@ class DefaultRecordsExtension extends Extension
     public function createTextImageBlock($page): void
     {
         // Create an image
-        $imagePath = Director::getAbsFile('themes/startup/images/block1-image.webp');
-        $image = Image::create();
+        $imagePath = Director::getAbsFile('vendor/silverstripe/startup-theme-components/themes/startup-theme-components/images/layout-illustration.png');
+        $image = Image::create([
+            'CanViewType' => 'Anyone',
+        ]);
         $image->setFromString(file_get_contents($imagePath), basename($imagePath));
         $image->write();
         $image->publishFile();

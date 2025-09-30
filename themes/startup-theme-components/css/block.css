@@ -7,7 +7,8 @@
     display: grid;
 }
 
-.block__h1, .block__h2 {
+.block__h1, .block__h2,
+.block__h1:first-of-type, .block__h2:first-of-type {
     margin: 0;
 }
 

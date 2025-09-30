@@ -9,46 +9,59 @@
 
         <%-- Desktop menu --%>
         <nav class="nav nav--desktop" aria-label="Main">
-        <ul class="menu accordion">
-            <% loop $Menu(1) %>
-            <li class="menu__item<% if $Children %> menu__item--has-submenu accordion__item<% end_if %>" data-close-on-defocus>
-            <div class="menu__item-container">
-                <a id="{$URLSegment}-submenu-link" href="$Link" class="menu__link menu__link--{$LinkingMode}">$MenuTitle</a>
-                <% if $Children %>
-                    <button class="submenu-chevron accordion__toggle" type="button" aria-label="Open $MenuTitle submenu" aria-expanded="false" aria-controls="{$URLSegment}-submenu" data-accordion-flip>
-                        <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M0 1.88973L1.29663 0.5L5.50183 5.08612L9.70337 0.5L11 1.88973L5.50183 7.86607L0 1.88973Z" fill="currentcolor">
-                        </svg>
-                    </button>
-                </div><%-- close .menu__item-container --%>
-                    <div id="{$URLSegment}-submenu" class="submenu-container accordion__container" aria-labelledby="{$URLSegment}-submenu-link">
-                        <ul class="submenu">
-                            <% loop $Children %>
-                                <li class="submenu__item">
-                                    <a href="$Link" class="submenu__link submenu__link--{$LinkingMode}">$MenuTitle</a>
-                                </li>
-                            <% end_loop %>
-                        </ul>
-                    </div>
-                <% else %>
-                </div><%-- close .menu__item-container --%>
-                <% end_if %>
-                </li>
-            <% end_loop %>
+            <ul class="menu">
+                <% loop $MenuSet('MainMenu').MenuItems %>
+                    <li class="menu__item menu__item--{$LinkingMode} <% if $Children %> menu__item--has-submenu<% end_if %>">
+                        <div class="menu__item-container">
+                            <a id="{$URLSegment}-submenu-link" href="$Link" class="menu__link menu__link--{$LinkingMode}"<% if $Children %> aria-haspopup="true" aria-controls="{$URLSegment}-submenu" aria-expanded="false"<% end_if %>>
+                                $MenuTitle
+                            </a>
+                            <% if $Children %>
+                                <button
+                                    class="submenu-chevron"
+                                    type="button"
+                                    aria-label="Open $MenuTitle submenu"
+                                    aria-controls="{$URLSegment}-submenu"
+                                    aria-expanded="false"
+                                >
+                                    <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path d="M0 1.88973L1.29663 0.5L5.50183 5.08612L9.70337 0.5L11 1.88973L5.50183 7.86607L0 1.88973Z" fill="currentcolor" />
+                                    </svg>
+                                </button>
+                            <% end_if %>
+                        </div>
+                        <% if $Children %>
+                            <div
+                                id="{$URLSegment}-submenu"
+                                class="submenu-container"
+                                aria-labelledby="{$URLSegment}-submenu-link"
+                                aria-hidden="true"
+                            >
+                                <ul class="submenu">
+                                    <% loop $Children %>
+                                        <li class="submenu__item">
+                                            <a href="$Link" class="submenu__link submenu__link--{$LinkingMode}">$MenuTitle</a>
+                                        </li>
+                                    <% end_loop %>
+                                </ul>
+                            </div>
+                        <% end_if %>
+                    </li>
+                <% end_loop %>
             </ul>
-            </nav>
+        </nav>
 
-            <%-- SiteConfig header button link --%>
-            <% with $SiteConfig  %>
-                <% if $HeaderButton %>
-                    <a class="button button--secondary-on-dark<% if $HeaderButton.OpenInNew %> button--external<% end_if %> header__button"
-                       href="$HeaderButton.URL"
-                        <% if $HeaderButton.OpenInNew %>target="_blank" rel="noopener noreferrer"<% end_if %>
-                    >
-                        $HeaderButton.Title
-                    </a>
-                <% end_if %>
-            <% end_with %>
+        <%-- SiteConfig header button link --%>
+        <% with $SiteConfig  %>
+            <% if $HeaderButton %>
+                <a class="button button--secondary-on-dark<% if $HeaderButton.OpenInNew %> button--external<% end_if %> header__button"
+                   href="$HeaderButton.URL"
+                    <% if $HeaderButton.OpenInNew %>target="_blank" rel="noopener noreferrer"<% end_if %>
+                >
+                    $HeaderButton.Title
+                </a>
+            <% end_if %>
+        <% end_with %>
 
         <%-- Mobile menu controls --%>
         <button class="hamburger" type="button" aria-label="Toggle menu" data-toggle-mobile-menu>
@@ -64,7 +77,7 @@
                 <img class="logo__image" src="$themedResourceURL('images/logo--black.svg')" width="117" height="22" alt="{$SiteConfig.Title}">
             </a>
             <ul class="mobile-menu accordion">
-                <% loop $Menu(1) %>
+                <% loop $MenuSet('MainMenu').MenuItems %>
                     <li class="mobile-menu__item<% if $Children %> mobile-menu__item--has-submenu accordion__item<% end_if %>">
                         <a href="$Link" id="{$URLSegment}-mobile-submenu-link" class="mobile-menu__link"
                         >$MenuTitle</a>
@@ -101,4 +114,3 @@
         </nav>
     </div>
 </header>
-
