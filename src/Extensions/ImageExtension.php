@@ -19,7 +19,7 @@ class ImageExtension extends Extension
      */
     public function updateAttributes(array &$attributes): void
     {
-        $attributes['alt'] = $this->getOwner()->AltText();
+        $attributes['alt'] = $this->getOwner()->AltText ?? '';
     }
 
 }
