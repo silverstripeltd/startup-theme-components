@@ -24,11 +24,7 @@ class FileFormFactoryExtension extends DataExtension
             'AltText',
             _t('SilverStripe\\AssetAdmin\\Controller\\AssetAdmin.AltText', 'Alternative text (alt)')
         );
-
-        if ($type) {
-            $altTextField = $altTextField->performReadonlyTransformation();
-        }
-
+        
         $altTextDescription = _t(
             'SilverStripe\\AssetAdmin\\Controller\\AssetAdmin.AltTextTip',
             'Description for visitors who are unable to view the image (using screenreaders or ' .

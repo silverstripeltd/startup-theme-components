@@ -3,9 +3,6 @@
 namespace SilverStripe\StartupTheme;
 
 use SilverStripe\Core\Extension;
-use SilverStripe\Forms\CheckboxSetField;
-use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\TextareaField;
 
 class ImageExtension extends Extension
 {
@@ -22,7 +19,7 @@ class ImageExtension extends Extension
      */
     public function updateAttributes(array &$attributes): void
     {
-        $attributes['alt'] = $this->owner->AltText;
+        $attributes['alt'] = $this->getOwner()->AltText ?? '';
     }
 
 }

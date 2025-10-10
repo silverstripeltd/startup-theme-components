@@ -2,6 +2,10 @@
 .section {
     padding: 6rem 0;
 
+    @media (min-width: 769px) {
+        padding: 8rem 0;
+    }
+
     @media (min-width: 992px) {
         padding: 10rem 0;
     }
