@@ -1,5 +1,5 @@
 {
-    "name": "silverstripe/startup-theme-components",
+    "name": "silverstripeltd/startup-theme-components",
     "description": "PHP components and dependencies for the Silverstripe Startup theme",
     "type": "silverstripe-vendormodule",
     "keywords": [
