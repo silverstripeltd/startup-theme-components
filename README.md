@@ -1,6 +1,45 @@
-# startup-theme-components
+# The Startup Package: startup-theme-components
 
 This module extends the Startup theme with some commonly used modules, and some example models to get you started.
+
+## Installation
+This module should be installed as part of a clean Silverstripe project if you'd like all the default content to be created.
+
+This guide assumes you have [Composer](https://getcomposer.org/) installed.
+
+In the CLI, navigate to the folder where you want to create your Silverstripe project.
+
+Create a new Silverstripe project via composer:
+```bash
+composer create-project silverstripe/installer my-project
+```
+
+Navigate to your project folder:
+```bash
+cd my-project
+```
+
+Then require the `startup-theme-components` module:
+```bash
+composer require silverstripeltd/startup-theme-components
+```
+
+In your project's `app/_config/theme.yml` file, add the `startup-theme-components` theme as the default theme.
+Your config should look something like this:
+```yaml
+---
+Name: mytheme
+---
+SilverStripe\View\SSViewer:
+  themes:
+    - 'silverstripeltd/startup-theme-components:startup-theme-components'
+    - 'startup-theme'
+    - '$public'
+    - '$default'
+```
+
+You can now set up your .env file as required, and run a dev/build to create the database tables and default content,
+see the [quick start guide](https://docs.silverstripe.org/en/6/getting_started/#quickstart-installation)
 
 ## Included Modules
 
@@ -18,6 +57,10 @@ block types, see the [documentation](https://docs.silverstripe.org/en/5/optional
 ### [Silverstripe Menu Manager](https://github.com/WPP-Public/akqa-nz-silverstripe-menumanager)
 Menu Manager lets you define custom menus in the CMS, and use them in templates. STC ships with a Main Menu and a Footer
 Menu, edit these via the "Menus" link in the CMS admin. For more info on creating new menus, check the [README](https://github.com/WPP-Public/akqa-nz-silverstripe-menumanager#silverstripe-menu-manager).
+
+### [FocusPoint](https://github.com/jonom/silverstripe-focuspoint)
+FocusPoint allows content authors to define a focal point for images, so that images are cropped intelligently when resampled.
+Consult the [README](https://github.com/jonom/silverstripe-focuspoint?tab=readme-ov-file) for detailed usaged instructions.
 
 ## Other customisations
 There have been some other useful extensions added to core Silverstripe models, to demonstrate how their data can be 

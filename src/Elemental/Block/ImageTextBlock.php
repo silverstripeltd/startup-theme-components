@@ -5,7 +5,7 @@ namespace SilverStripe\StartupThemeComponents\Elemental\Block;
 use DNADesign\Elemental\Models\BaseElement;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
-use SilverStripe\Forms\CompositeValidator;
+use SilverStripe\Forms\Validation\CompositeValidator;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\RequiredFields;
