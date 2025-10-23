@@ -6,14 +6,16 @@ use DNADesign\Elemental\Models\ElementContent;
 use Heyday\MenuManager\MenuItem;
 use Heyday\MenuManager\MenuSet;
 use Page;
+use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Controllers\RootURLController;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Extension;
+use SilverStripe\Core\Validation\ValidationException;
 use SilverStripe\LinkField\Models\ExternalLink;
+use SilverStripe\LinkField\Models\SiteTreeLink;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
-use SilverStripe\ORM\ValidationException;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\StartupThemeComponents\Elemental\Block\ImageTextBlock;
 use SilverStripe\StartupThemeComponents\PageTypes\BlocksPage;
@@ -25,40 +27,65 @@ class DefaultRecordsExtension extends Extension
      * @return void
      * @throws ValidationException
      */
-    public function requireDefaultRecords(): void
+    public function onRequireDefaultRecords(): void
     {
         // On initial dev-build, the default SiteConfig is created.
         // So provided SiteConfig doesn't exist, we know this is the first dev/build on a fresh DB,
         // and we want to create default pages, menus and blocks.
-
         if (!SiteConfig::get()->first()) {
-            // Create site config
+            // Start creating some default data
             $this->createSiteConfig();
-
-            // Create Home page
             $this->createHomePage();
-
-            // Create pages (adding pages here interferes with the core SiteTree logic which will create the About and
-            // Contact pages based on the current page count, so we'll add our own ones here.
-            $pages = [
-                'About',
-                'Resources',
-                'Contact',
-            ];
-
-            $footerPages = [
-                'About Startup',
-                'Another page',
-            ];
+            $this->createImages();
 
             // Start sort at 2, as Home page is one
             $sort = 2;
 
-            $allPages = array_merge($pages, $footerPages);
+            // Create other top level pages
+            $pages = [
+                'About',
+                'Resources',
+            ];
 
-            foreach ($allPages as $pageTitle) {
+            $aboutPage = BlocksPage::create([
+                'Title' => 'About',
+                'ShowHero' => '1',
+                'Intro' => 'The Startup package is a simple site for you to either try out Silverstripe CMS, or use as a starting point for your next project.',
+                'Sort' => $sort,
+            ]);
+            $aboutPage->write();
+            $aboutPage->publishRecursive();
+            $sort++;
+
+            $resourcesPage = Page::create([
+                'Title' => 'Resources',
+                'Sort' => $sort,
+            ]);
+            $resourcesPage->write();
+            $resourcesPage->publishRecursive();
+            $sort++;
+
+            // Create top level pages
+            foreach ($pages as $pageTitle) {
                 $page = Page::create([
                     'Title' => $pageTitle,
+                    'Sort' => $sort,
+                ]);
+                $page->write();
+                $page->publishSingle();
+                $sort++;
+            }
+
+            // Add child pages to About page
+            $aboutChildPages = [
+                'The Startup package',
+                'Silverstripe CMS',
+            ];
+            $aboutPage = Page::get()->filter('Title', 'About')->first();
+            foreach ($aboutChildPages as $pageTitle) {
+                $page = Page::create([
+                    'Title' => $pageTitle,
+                    'ParentID' => $aboutPage->ID,
                     'Sort' => $sort,
                 ]);
                 $page->write();
@@ -78,17 +105,23 @@ class DefaultRecordsExtension extends Extension
                 $mainMenu->MenuItems()->add($item);
             }
 
-            // Get footer menu and add items to it
+            // Get footer menu and add external link to it
             $footerMenu = MenuSet::get()->filter('Name', 'FooterMenu')->first();
+            $item = MenuItem::create([
+                'MenuTitle' => 'Contact',
+                'Link' => 'https://www.silverstripe.com/contact/',
+                'IsNewWindow' => 1,
+            ]);
+            $item->write();
+            $footerMenu->MenuItems()->add($item);
 
-            foreach ($footerPages as $pageTitle) {
-                $item = MenuItem::create([
-                    'MenuTitle' => $pageTitle,
-                    'PageID' => Page::get()->filter('Title', $pageTitle)->first()->ID,
-                ]);
-                $item->write();
-                $footerMenu->MenuItems()->add($item);
-            }
+            // Create various blocks
+            $this->createTextImageBlocks();
+
+            // Add the rest of the content to the other pages
+            $this->createPageContent();
+
+            DB::alteration_message("All default Startup content created", "created");
         }
     }
 
@@ -110,8 +143,8 @@ class DefaultRecordsExtension extends Extension
 
         // Create header button link
         $headerButton = ExternalLink::create([
-            'LinkText' => 'Dev docs',
-            'ExternalUrl' => 'https://docs.silverstripe.org/',
+            'LinkText' => 'Package repo',
+            'ExternalUrl' => 'https://github.com/silverstripeltd/startup-theme-components',
             'OpenInNew' => true,
         ]);
         $headerButton->write();
@@ -149,88 +182,232 @@ class DefaultRecordsExtension extends Extension
         $page->write();
         $page->publishSingle();
         DB::alteration_message('Home page created', 'created');
-
-        // Create various blocks for the Home page
-        $page = Page::get()->filter('Title', 'Home')->first();
-        $this->createTextImageBlock($page);
-        $this->createContentBlock($page);
-
-        // Publish Home page
-        $page->publishRecursive();
     }
 
-    public function createTextImageBlock($page): void
+    public function createImages(): void
     {
-        // Create an image
-        $imagePath = Director::getAbsFile('vendor/silverstripe/startup-theme-components/themes/startup-theme-components/images/layout-illustration.png');
-        $image = Image::create([
-            'CanViewType' => 'Anyone',
-        ]);
-        $image->setFromString(file_get_contents($imagePath), basename($imagePath));
-        $image->write();
-        $image->publishFile();
+        $images = [
+            'illustration-content.png' => 'Content',
+            'illustration-recipe.png' => 'Recipe',
+            'illustration-resources.png' => 'Resources',
+            'illustration-silverstripe-cms.png' => 'SilverstripeCMS',
+        ];
 
-        // Create external link
-        $link = ExternalLink::create([
-            'LinkText' => 'Check out the features',
-            'ExternalUrl' => 'https://docs.silverstripe.org/',
-            'OpenInNew' => false,
-        ]);
-        $link->write();
-        $link->publishRecursive();
+        // Create this set of images for the Silverstripe filesystem
+        foreach ($images as $path => $title) {
+            $imagePath = Director::getAbsFile('vendor/silverstripeltd/startup-theme-components/themes/startup-theme-components/images/' . $path);
+            $image = Image::create([
+                'CanViewType' => 'Anyone',
+                'Title' => $title,
+            ]);
+            $image->setFromString(file_get_contents($imagePath), basename($imagePath));
+            $image->write();
+            $image->publishFile();
+        }
+    }
 
-        // Create image and text block
-        $imageTextBlock = ImageTextBlock::create([
-            'ParentID' => $page->ElementalAreaID,
-            'Title' => 'Welcome to Silverstripe CMS Sandbox',
+    public function createTextImageBlocks(): void
+    {
+        // Create links for the blocks
+        $startuplink = SiteTreeLink::create([
+            'LinkText' => 'What\'s included',
+            'PageID' => Page::get()->filter('Title', 'The Startup package')->first()->ID,
+        ]);
+        $startuplink->write();
+        $startuplink->publishRecursive();
+
+        $cmsLink = SiteTreeLink::create([
+            'LinkText' => 'More about Silverstripe CMS',
+            'PageID' => Page::get()->filter('Title', 'Silverstripe CMS')->first()->ID,
+        ]);
+        $cmsLink->write();
+        $cmsLink->publishRecursive();
+
+
+        // Create Homepage image and text blocks
+        $homePage = Page::get()->filter('Title', 'Home')->first();
+        $image1 = Image::get()->filter('Title', 'Content')->first();
+        $imageTextBlock1 = ImageTextBlock::create([
+            'TopPageID' => $homePage->ID,
+            'ParentID' => $homePage->ElementalAreaID,
+            'Title' => 'Welcome to Silverstripe CMS Startup',
             'ShowTitle' => '1',
             'ImagePosition' => 'Right',
             'Sort' => 1,
             'Content' => '
-                <p>Silverstripe CMS works to empower your teams and your customers by keeping things clean, simple,
-                 and easy-to-use.</p>
+                <p>The Startup packlage is a theme and set of modules for you to either try out Silverstripe CMS, or use
+                as a starting point for your next project.</p>
                 ',
-            'ImageTextBlockImageID' => $image->ID,
-            'CTAButtonLinkID' => $link->ID,
+            'ImageTextBlockImageID' => $image1->ID,
         ]);
+        $imageTextBlock1->write();
+        $imageTextBlock1->publishRecursive();
 
-        $imageTextBlock->write();
-        $imageTextBlock->publishRecursive();
+        $image2 = Image::get()->filter('Title', 'Recipe')->first();
+        $imageTextBlock2 = ImageTextBlock::create([
+            'TopPageID' => $homePage->ID,
+            'ParentID' => $homePage->ElementalAreaID,
+            'Title' => 'Templates and modules to help you start-up your next project',
+            'ShowTitle' => '1',
+            'ImagePosition' => 'Left',
+            'Sort' => 2,
+            'Content' => '
+                <p>The Startup package comes with a number of modules, features, page templates and content blocks to
+                get you started.</p>
+                ',
+            'CTAButtonLink' => $startuplink->ID,
+            'ImageTextBlockImageID' => $image2->ID,
+        ]);
+        $imageTextBlock2->write();
+        $imageTextBlock2->publishRecursive();
+
+        $image3 = Image::get()->filter('Title', 'SilverstripeCMS')->first();
+        $imageTextBlock3 = ImageTextBlock::create([
+            'TopPageID' => $homePage->ID,
+            'ParentID' => $homePage->ElementalAreaID,
+            'Title' => 'Powered by Silverstripe CMS',
+            'ShowTitle' => '1',
+            'ImagePosition' => 'Right',
+            'Sort' => 3,
+            'Content' => '
+                <p>Built in Aotearoa New Zealand and used all over the world, Silverstripe CMS is a powerful and
+                customisable product that can help you create the digital experience your customers need.</p>
+                ',
+            'CTAButtonLink' => $cmsLink->ID,
+            'ImageTextBlockImageID' => $image3->ID,
+        ]);
+        $imageTextBlock3->write();
+        $imageTextBlock3->publishRecursive();
+        $homePage->write();
+        $homePage->publishRecursive();
+
+        // Blocks for the About page
+        $aboutPage = Page::get()->filter('Title', 'About')->first();
+        $imageTextBlock4 = ImageTextBlock::create([
+            'TopPageID' => $aboutPage->ID,
+            'ParentID' => $aboutPage->ElementalAreaID,
+            'Title' => 'What\'s in the Startup package?',
+            'ShowTitle' => '1',
+            'ImagePosition' => 'Right',
+            'Sort' => 1,
+            'Content' => '
+                <p>The Startup package is a demo to show off the authoring interface of the Silverstripe Content
+                Management System (CMS). It comes with a number of features, page templates, content blocks and
+                pre-installed modules.</p>
+                ',
+            'CTAButtonLink' => $startuplink->ID,
+            'ImageTextBlockImageID' => $image2->ID,
+        ]);
+        $imageTextBlock4->write();
+        $imageTextBlock4->publishRecursive();
+
+        $imageTextBlock5 = ImageTextBlock::create([
+            'TopPageID' => $aboutPage->ID,
+            'ParentID' => $aboutPage->ElementalAreaID,
+            'Title' => 'Why use Silverstripe CMS?',
+            'ShowTitle' => '1',
+            'ImagePosition' => 'Left',
+            'Sort' => 2,
+            'Content' => '
+                <p>The Silverstripe CMS is designed to promote accessible site design, semantic markup, and HTML5 use.
+                It has been downloaded well over 500,000 times and powers websites for government agencies,
+                corporations, non-profits and a large number of much smaller websites.</p>
+                ',
+            'CTAButtonLink' => $cmsLink->ID,
+            'ImageTextBlockImageID' => $image3->ID,
+        ]);
+        $imageTextBlock5->write();
+        $imageTextBlock5->publishRecursive();
+        $aboutPage->write();
+        $aboutPage->publishRecursive();
     }
 
-    public function createContentBlock($page): void
+    public function createPageContent(): void
     {
-        // Create content block
-        $block = ElementContent::create([
-            'TopPageID' => $page->ID,
-            'ParentID' => $page->ElementalAreaID,
-            'Title' => 'Block heading 2',
-            'ShowTitle' => '1',
-            'Sort' => 2,
-            'BlockBackgroundColor' => 'pale-grey',
-            'BlockNarrowContentWidth' => '1',
-            'HTML' => '
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu quam orci. Duis vitae rutrum
-                metus. Vivamus eu erat vulputate, ornare sem et, auctor diam. Ut nec mollis neque, vehicula mollis
-                dolor. Proin vel quam cursus, malesuada sapien vel, maximus urna. Sed lectus ligula, lacinia non mauris
-                at, maximus placerat sapien. Proin euismod augue et felis hendrerit commodo. Proin gravida urna a velit
-                molestie fringilla. Maecenas consectetur dui vitae tellus scelerisque, non posuere massa tincidunt.
-                Etiam porta sed mi eget hendrerit.</p>
-                <p>Nunc sed massa in erat venenatis rutrum. Sed nec pretium neque. Etiam laoreet id ex vitae porttitor.
-                Quisque quis lacus lacinia nisi laoreet sodales sit amet rutrum eros. Duis pulvinar porttitor quam vel
-                pellentesque. Nulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada
-                fames ac turpis egestas. Quisque et dui sed sem suscipit varius quis sit amet massa. Nullam lacinia est
-                non lorem luctus accumsan.</p>
-                <h3>Heading 3</h3>
-                <p>Ut nec felis congue, tincidunt sapien et, lacinia neque. In ac est a risus luctus porta. Donec eget
-                tincidunt mi. Vestibulum efficitur nisi eu enim tincidunt, luctus finibus turpis dignissim. Nulla
-                sollicitudin viverra neque eu aliquam. Nunc in feugiat risus, et sodales libero. Morbi eleifend magna
-                sit amet quam tempor aliquet. Praesent eget odio laoreet, efficitur nulla sed, gravida urna. Morbi
-                elementum suscipit urna, a aliquam est congue auctor.</p>
-                ',
-        ]);
-        $block->write();
-        $block->publishRecursive();
+        // Add content to The Startup package page
+        $startupImage = Image::get()->filter('Title', 'Recipe')->first();
+        $startupPage = Page::get()->filter('Title', 'The Startup package')->first();
+        $startupPage->Intro =
+            'The Startup package is a simple yet functional site install to get you started on your next project.';
+        $startupPage->Content = '
+            <p><img width="1160" height="800" alt="" src="'. $startupImage->getURL() .'" loading="lazy" class="leftAlone ss-htmleditorfield-file image"></p>
+            <h2>Theme styles</h2>
+            <p>The Startup package comes with a set of simple yet robust styles including:</p>
+            <ul>
+                <li>Colour variables</li>
+                <li>Typography</li>
+                <li>Interactions</li>
+            </ul>
+            <h2>Modules</h2>
+            <p>The following modules are included:</p>
+            <ul>
+                <li><a rel="noopener noreferrer" href="https://github.com/silverstripe/silverstripe-elemental" target="_blank">Elemental</a> - allows you to create and structure pages with content blocks</li>
+                <li><a rel="noopener noreferrer" href="https://github.com/jonom/silverstripe-focuspoint" target="_blank">Image focus point</a></li>
+                <li><a rel="noopener noreferrer" href="https://github.com/WPP-Public/akqa-nz-silverstripe-menumanager" target="_blank">Menu manager</a></li>
+            </ul>
+            <h2>Page templates</h2>
+            <p>The following page templates are included:</p>
+            <ul>
+                <li>Blocks page</li>
+                <li>Content page (this page)</li>
+            </ul>
+            <h2>Content blocks</h2>
+            <p>Content blocks are reusable templated sections which can be used across various pages on a site. This gives you the flexibility to design and structure your content how you want.</p>
+            <p>Blocks included in the Startup package:</p>
+            <ul>
+                <li>WYSIWYG block: rich text block which allows for text, links, tables, and images.</li>
+                <li>Image-text block: a simple block which allows for a large image on either the left or right, with simple text content</li>
+            </ul>
+        ';
+        $startupPage->write();
+        $startupPage->publishRecursive();
+
+        // Add content to Silverstripe CMS page
+        $cmsImage = Image::get()->filter('Title', 'SilverstripeCMS')->first();
+        $cmsPage = Page::get()->filter('Title', 'Silverstripe CMS')->first();
+        $cmsPage->Intro = 'Built in Aotearoa New Zealand and used all over the world.';
+        $cmsPage->Content = '
+            <p><img width="1160" height="800" alt="" src="'. $cmsImage->getURL() .'" loading="lazy" class="leftAlone ss-htmleditorfield-file image"></p>
+            <p>We believe the open source model simply produces better web software and in turn, better meets our own needs and those of other developers who use the software. As with all open source software, anyone has access to the source code, and a global community of developers can share best practices, code, documentation, roadmap ideas and so on.</p>
+            <h2>Features and benefits</h2>
+            <h3>Content blocks</h3>
+            <p>Building your pages block by block gives you flexibility to design and structure your content how you want.</p>
+            <h3>Security</h3>
+            <p>Silverstripe CMS is professionally maintained and has security features built-in to protect your website’s data.</p>
+            <h3><span>Add-on library</span></h3>
+            <p><span>Extend the functionality of your website with pre-built add-ons. There are thousands of add-ons to choose from in the add-on library.</span></p>
+            <h3><span>User workflows</span></h3>
+            <p><span>Set up user roles and permissions and then create workflows so that content is reviewed and approved by the right people.</span></p>
+            <h3><span>History and version controls</span></h3>
+            <p><span>See how your content has changed with each version and revert changes if you need to. Content history allows you to see publishing information, and archive it within the CMS.</span></p>
+            <h3><span>Decoupled content delivery</span></h3>
+            <p><span>Silverstripe CMS combines the strength of a traditional CMS with powerful </span><span>API integrations for a headless or decoupled approach if required.</span></p>
+            <h2><span>Licensing</span></h2>
+            <p><span>You never have to pay a licensing fee for Silverstripe CMS, and you never have to worry about vendor lock-in. Under the BSD license, which is one of the most flexible open source licenses and Open Source Initiative approved, you benefit from the contributions of others in the community, and the transparent way in which the software is developed in consultation with its users.</span></p>
+                    ';
+        $cmsPage->write();
+        $cmsPage->publishRecursive();
+
+        // Add content to Resources page
+        $resourceImage = Image::get()->filter('Title', 'Resources')->first();
+        $resourcesPage = Page::get()->filter('Title', 'Resources')->first();
+        $resourcesPage->Intro = 'Links to help you get started as well as technical resources.';
+        $resourcesPage->Content = '
+            <p><img width="1160" height="800" alt="" src="'. $resourceImage->getURL() .'" loading="lazy" class="leftAlone ss-htmleditorfield-file image"></p>
+            <h2>For CMS users</h2>
+            <p>New to Silverstripe CMS? Our user guide will help get you started with managing content. The guide has been specially created to help web administrators and content authors learn how to make the most of Silverstripe CMS.</p>
+            <ul>
+                <li><a rel="noopener noreferrer" href="https://userhelp.silverstripe.org/" target="_blank">User help guide</a></li>
+            </ul>
+            <h2>For developers</h2>
+            <p>We believe knowledge is best learnt by engaging with other Silverstripe CMS practitioners and getting to know others in the community. Whether your focus is front-end or back-end development, there are several resources and ways to connect with others to help you on your way.</p>
+            <ul>
+                <li><a rel="noopener noreferrer" href="https://docs.silverstripe.org/" target="_blank">Silverstripe CMS Docs</a></li>
+                <li><a rel="noopener noreferrer" href="https://api.silverstripe.org/" target="_blank">API Docs</a></li>
+                <li><a rel="noopener noreferrer" href="https://silverstripe-users.slack.com" target="_blank">Slack</a></li>
+            </ul>
+        ';
+        $resourcesPage->write();
+        $resourcesPage->publishRecursive();
     }
 }
-
