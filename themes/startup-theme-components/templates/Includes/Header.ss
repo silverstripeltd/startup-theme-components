@@ -38,7 +38,7 @@
                                 aria-hidden="true"
                             >
                                 <ul class="submenu">
-                                    <% loop $Children %>
+                                    <% loop $Page.Children %>
                                         <li class="submenu__item">
                                             <a href="$Link" class="submenu__link submenu__link--{$LinkingMode}">$MenuTitle</a>
                                         </li>
