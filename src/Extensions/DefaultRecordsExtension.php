@@ -239,7 +239,7 @@ class DefaultRecordsExtension extends Extension
             'ImagePosition' => 'Right',
             'Sort' => 1,
             'Content' => '
-                <p>The Startup recipe is a theme and set of modules for you to either try out Silverstripe CMS, or use
+                <p>The Startup packlage is a theme and set of modules for you to either try out Silverstripe CMS, or use
                 as a starting point for your next project.</p>
                 ',
             'ImageTextBlockImageID' => $image1->ID,
@@ -256,7 +256,7 @@ class DefaultRecordsExtension extends Extension
             'ImagePosition' => 'Left',
             'Sort' => 2,
             'Content' => '
-                <p>The Startup recipe comes with a number of modules, features, page templates and content blocks to
+                <p>The Startup package comes with a number of modules, features, page templates and content blocks to
                 get you started.</p>
                 ',
             'CTAButtonLink' => $startuplink->ID,
@@ -290,7 +290,7 @@ class DefaultRecordsExtension extends Extension
         $imageTextBlock4 = ImageTextBlock::create([
             'TopPageID' => $aboutPage->ID,
             'ParentID' => $aboutPage->ElementalAreaID,
-            'Title' => 'What\'s in the Startup recipe?',
+            'Title' => 'What\'s in the Startup package?',
             'ShowTitle' => '1',
             'ImagePosition' => 'Right',
             'Sort' => 1,
