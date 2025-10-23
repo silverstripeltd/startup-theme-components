@@ -27,12 +27,11 @@ class DefaultRecordsExtension extends Extension
      * @return void
      * @throws ValidationException
      */
-    public function requireDefaultRecords(): void
+    public function onRequireDefaultRecords(): void
     {
         // On initial dev-build, the default SiteConfig is created.
         // So provided SiteConfig doesn't exist, we know this is the first dev/build on a fresh DB,
         // and we want to create default pages, menus and blocks.
-
         if (!SiteConfig::get()->first()) {
             // Start creating some default data
             $this->createSiteConfig();
@@ -144,8 +143,8 @@ class DefaultRecordsExtension extends Extension
 
         // Create header button link
         $headerButton = ExternalLink::create([
-            'LinkText' => 'Dev docs',
-            'ExternalUrl' => 'https://docs.silverstripe.org/',
+            'LinkText' => 'Package repo',
+            'ExternalUrl' => 'https://github.com/silverstripeltd/startup-theme-components',
             'OpenInNew' => true,
         ]);
         $headerButton->write();
