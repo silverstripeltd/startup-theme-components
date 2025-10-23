@@ -39,7 +39,7 @@ SilverStripe\View\SSViewer:
 ```
 
 You can now set up your .env file as required, and run a dev/build to create the database tables and default content,
-see the [quick start guide](composer create-project silverstripe/installer my-project)
+see the [quick start guide](https://docs.silverstripe.org/en/6/getting_started/#quickstart-installation)
 
 ## Included Modules
 
