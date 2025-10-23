@@ -186,9 +186,6 @@ class DefaultRecordsExtension extends Extension
 
     public function createImages(): void
     {
-        // Create the Uploads folder
-        $folder = Folder::find_or_make('Uploads');
-
         $images = [
             'illustration-content.png' => 'Content',
             'illustration-recipe.png' => 'Recipe',
@@ -202,7 +199,6 @@ class DefaultRecordsExtension extends Extension
             $image = Image::create([
                 'CanViewType' => 'Anyone',
                 'Title' => $title,
-                'ParentID' => $folder->ID,
             ]);
             $image->setFromString(file_get_contents($imagePath), basename($imagePath));
             $image->write();
