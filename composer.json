@@ -14,9 +14,11 @@
     ],
     "require": {
         "silverstripe/startup-theme": "^1",
-        "heyday/silverstripe-menumanager": "^4.2",
-        "dnadesign/silverstripe-elemental": "^5.2",
-        "silverstripe/linkfield": "^4.0"
+        "heyday/silverstripe-menumanager": "^5",
+        "dnadesign/silverstripe-elemental": "^6",
+        "silverstripe/linkfield": "^5",
+        "jonom/focuspoint": "^6",
+        "silverstripe/htmleditor-tinymce": "^1"
     },
     "extra": {
         "expose": [

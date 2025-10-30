@@ -3,13 +3,13 @@
 namespace SilverStripe\StartupTheme;
 
 use SilverStripe\AssetAdmin\Forms\AssetFormFactory;
+use SilverStripe\Core\Extension;
 use SilverStripe\Forms\Tip;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\DataExtension;
 use SilverStripe\Forms\TippableFieldInterface;
 
-class FileFormFactoryExtension extends DataExtension
+class FileFormFactoryExtension extends Extension
 {
     public function updateFormFields(FieldList $fields, $controller, $name, $context)
     {
@@ -24,7 +24,7 @@ class FileFormFactoryExtension extends DataExtension
             'AltText',
             _t('SilverStripe\\AssetAdmin\\Controller\\AssetAdmin.AltText', 'Alternative text (alt)')
         );
-        
+
         $altTextDescription = _t(
             'SilverStripe\\AssetAdmin\\Controller\\AssetAdmin.AltTextTip',
             'Description for visitors who are unable to view the image (using screenreaders or ' .
