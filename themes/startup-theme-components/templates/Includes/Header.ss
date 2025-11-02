@@ -89,7 +89,7 @@
                             </button>
                             <div id="{$URLSegment}-mobile-submenu" class="mobile-submenu-container accordion__container" aria-labelledby="{$URLSegment}-mobile-submenu-link">
                                 <ul class="mobile-submenu">
-                                    <% loop $Children %>
+                                    <% loop $Page.Children %>
                                         <li class="mobile-submenu__item">
                                             <a href="$Link" title="$Title" class="mobile-submenu__link">$MenuTitle</a>
                                         </li>

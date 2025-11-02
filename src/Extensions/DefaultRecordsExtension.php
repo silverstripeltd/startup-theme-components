@@ -235,7 +235,7 @@ class DefaultRecordsExtension extends Extension
             'ImagePosition' => 'Right',
             'Sort' => 1,
             'Content' => '
-                <p>The Startup packlage is a theme and set of modules for you to either try out Silverstripe CMS, or use
+                <p>The Startup package is a theme and set of modules for you to either try out Silverstripe CMS, or use
                 as a starting point for your next project.</p>
                 ',
             'ImageTextBlockImageID' => $image1->ID,
