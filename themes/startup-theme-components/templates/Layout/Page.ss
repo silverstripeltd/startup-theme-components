@@ -17,3 +17,5 @@
         <% end_if %>
     </div>
 </main>
+
+$ElementalArea
