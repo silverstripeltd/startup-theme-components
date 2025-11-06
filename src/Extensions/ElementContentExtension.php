@@ -9,7 +9,7 @@ use SilverStripe\Forms\FieldList;
 class ElementContentExtension extends Extension
 {
     private static array $db = [
-        'BlockNarrowContentWidth' => 'Varchar(255)',
+        'BlockNarrowContentWidth' => 'Boolean',
     ];
 
     /**

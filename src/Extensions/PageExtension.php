@@ -3,7 +3,7 @@
 namespace SilverStripe\StartupTheme;
 
 use SilverStripe\Core\Extension;
-use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextareaField;
 
@@ -31,13 +31,10 @@ class PageExtension extends Extension
 
         $fields->insertBefore(
             'Content',
-            CheckboxSetField::create(
+            CheckboxField::create(
                 'ShowSiblingMenu',
-                'Show Sibling Menu',
-                [
-                    '1' => 'If this is a sub-page with siblings, display a sibling menu',
-                ]
-            )
+                'Show Sibling Menu'
+            )->setDescription('If this is a sub-page with siblings, display a sibling menu')
         );
     }
 

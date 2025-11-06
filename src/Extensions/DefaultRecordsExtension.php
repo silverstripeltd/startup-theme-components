@@ -123,6 +123,108 @@ class DefaultRecordsExtension extends Extension
 
             DB::alteration_message("All default Startup content created", "created");
         }
+
+        // Copy over project theme if it doesn't exist
+        $this->copyThemeToProject();
+    }
+
+    /**
+     * Copy the theme folder from vendor to project root themes directory
+     *
+     * @return void
+     */
+    protected function copyThemeToProject(): void
+    {
+        $vendorThemePath = Director::baseFolder() . '/vendor/silverstripeltd/startup-theme-components/themes/startup-theme-components';
+        $projectThemesPath = Director::baseFolder() . '/themes';
+
+        // 1. Copy CSS files to themes/startup-theme/css
+        $vendorCssPath = $vendorThemePath . '/css';
+        $projectStartupThemePath = $projectThemesPath . '/startup-theme';
+        $projectCssPath = $projectStartupThemePath . '/css';
+
+        // Check if source CSS folder exists
+        if (is_dir($vendorCssPath)) {
+            // Ensure themes/startup-theme/css directory exists
+            if (!is_dir($projectCssPath)) {
+                mkdir($projectCssPath, 0755, true);
+            }
+
+            // Copy CSS files
+            $copiedCss = 0;
+            $dir = opendir($vendorCssPath);
+            while (($file = readdir($dir)) !== false) {
+                if ($file === '.' || $file === '..') {
+                    continue;
+                }
+
+                $sourcePath = $vendorCssPath . '/' . $file;
+                $destPath = $projectCssPath . '/' . $file;
+
+                // Only copy if file doesn't exist (don't overwrite existing files)
+                if (!file_exists($destPath) && is_file($sourcePath)) {
+                    copy($sourcePath, $destPath);
+                    $copiedCss++;
+                }
+            }
+            closedir($dir);
+
+            if ($copiedCss > 0) {
+                DB::alteration_message("Copied {$copiedCss} CSS file(s) to themes/startup-theme/css", "created");
+            }
+        }
+
+        // 2. Copy images and templates folders to themes/startup-theme-components
+        $projectComponentsThemePath = $projectThemesPath . '/startup-theme-components';
+
+        // Copy images folder
+        $vendorImagesPath = $vendorThemePath . '/images';
+        $projectImagesPath = $projectComponentsThemePath . '/images';
+
+        if (is_dir($vendorImagesPath) && !is_dir($projectImagesPath)) {
+            $this->recursiveCopy($vendorImagesPath, $projectImagesPath);
+            DB::alteration_message("Copied images folder to themes/startup-theme-components/images", "created");
+        }
+
+        // Copy templates folder
+        $vendorTemplatesPath = $vendorThemePath . '/templates';
+        $projectTemplatesPath = $projectComponentsThemePath . '/templates';
+
+        if (is_dir($vendorTemplatesPath) && !is_dir($projectTemplatesPath)) {
+            $this->recursiveCopy($vendorTemplatesPath, $projectTemplatesPath);
+            DB::alteration_message("Copied templates folder to themes/startup-theme-components/templates", "created");
+        }
+    }
+
+    /**
+     * Recursively copy a directory
+     *
+     * @param string $source
+     * @param string $dest
+     * @return void
+     */
+    protected function recursiveCopy(string $source, string $dest): void
+    {
+        if (!is_dir($dest)) {
+            mkdir($dest, 0755, true);
+        }
+
+        $dir = opendir($source);
+        while (($file = readdir($dir)) !== false) {
+            if ($file === '.' || $file === '..') {
+                continue;
+            }
+
+            $sourcePath = $source . '/' . $file;
+            $destPath = $dest . '/' . $file;
+
+            if (is_dir($sourcePath)) {
+                $this->recursiveCopy($sourcePath, $destPath);
+            } else {
+                copy($sourcePath, $destPath);
+            }
+        }
+        closedir($dir);
     }
 
     /**
