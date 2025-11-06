@@ -32,7 +32,7 @@ vendor/bin/sake db:build
 ```
 
 As part of the build process, this module will move its theme files into your project's root `themes` folder.
-It will also augment the default `startup-theme` CSS folder with dome additional files from this module.
+It will also augment the default `startup-theme` CSS folder with some additional files from this module.
 In your project's `app/_config/theme.yml` file, add the `startup-theme-components` theme as the default theme.
 Your config should look something like this:
 ```yaml
