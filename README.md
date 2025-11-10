@@ -5,25 +5,34 @@ This module extends the Startup theme with some commonly used modules, and some 
 ## Installation
 This module should be installed as part of a clean Silverstripe project if you'd like all the default content to be created.
 
-This guide assumes you have [Composer](https://getcomposer.org/) installed.
+This guide assumes you have [Composer](https://getcomposer.org/) installed, as well as knowlege of running a webserver with PHP and a database.
 
 In the CLI, navigate to the folder where you want to create your Silverstripe project.
 
 Create a new Silverstripe project via composer:
 ```bash
-composer create-project silverstripe/installer my-project
+composer create-project silverstripe/installer {my-project}
 ```
 
 Navigate to your project folder:
 ```bash
-cd my-project
+cd {my-project}
 ```
+
+Point your webserver root to the `public` folder inside your project folder.
 
 Then require the `startup-theme-components` module:
 ```bash
 composer require silverstripeltd/startup-theme-components
 ```
 
+As with most Silverstripe modules, you'll need to then build the database fields.
+```bash
+vendor/bin/sake db:build
+```
+
+As part of the build process, this module will move its theme files into your project's root `themes` folder.
+It will also augment the default `startup-theme` CSS folder with some additional files from this module.
 In your project's `app/_config/theme.yml` file, add the `startup-theme-components` theme as the default theme.
 Your config should look something like this:
 ```yaml
@@ -32,14 +41,15 @@ Name: mytheme
 ---
 SilverStripe\View\SSViewer:
   themes:
-    - 'silverstripeltd/startup-theme-components:startup-theme-components'
+    - 'startup-theme-components'
     - 'startup-theme'
     - '$public'
     - '$default'
 ```
 
-You can now set up your .env file as required, and run a dev/build to create the database tables and default content,
-see the [quick start guide](https://docs.silverstripe.org/en/6/getting_started/#quickstart-installation)
+You can now modify and extend the theme as you like. See here for more information on [customising themes](https://docs.silverstripe.org/en/6/developer_guides/templates/themes/).
+
+Now set up your .env file as required, see the [quick start guide](https://docs.silverstripe.org/en/6/getting_started/#quickstart-installation)
 
 ## Included Modules
 

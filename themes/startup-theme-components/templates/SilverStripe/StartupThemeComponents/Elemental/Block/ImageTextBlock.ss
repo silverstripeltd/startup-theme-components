@@ -27,7 +27,7 @@
                 <source media="(min-width: 992px)" srcset="$ImageTextBlockImage.ScaleWidth(885).URL"/>
                 <source media="(min-width: 750px)" srcset="$ImageTextBlockImage.ScaleWidth(675).URL"/>
                 <source media="(min-width: 450px)" srcset="$ImageTextBlockImage.ScaleWidth(1065).URL"/>
-                <img src="$ImageTextBlockImage.ScaleWidth(615).URL" alt="$ImageTextBlockImage.AltText" />
+                $ImageTextBlockImage.ScaleWidth(615)
             </picture>
         </div>
     </div>
