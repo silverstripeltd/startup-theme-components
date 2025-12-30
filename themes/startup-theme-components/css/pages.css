@@ -1,9 +1,12 @@
+/**
+ * Page styles
+ */
 .page__intro {
     margin-bottom: 4rem;
 }
 
 .page__content {
-    img {
+    img.leftAlone {
         margin-bottom: 4rem;
     }
 }

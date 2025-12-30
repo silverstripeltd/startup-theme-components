@@ -42,7 +42,8 @@
  */
 .image-and-text-block {
     display: flex;
-    flex-direction: column;
+    /* Image always on top/first when layout stacks  */
+    flex-direction: column-reverse;
     gap: 4rem;
 
     @media (min-width: 750px) {
@@ -54,19 +55,10 @@
     }
 }
 
-/* Image always on top/first when layout stacks  */
-.image-and-text-block__left-column {
-    order: 1;
-
-    @media (min-width: 750px) {
-        order: 3;
-    }
-}
-
-/* Image always first when Left option slected */
 .image-and-text-block--left {
-    .image-and-text-block__left-column {
-        order: 1;
+    @media (min-width: 750px) {
+        /* Image always first when Left option slected */
+        flex-direction: row-reverse;
     }
 }
 
@@ -75,11 +67,10 @@
     display: grid;
     flex-shrink: 0;
     gap: 2.5rem;
-    order: 2;
 
     @media (min-width: 750px) {
-        width: clamp(34rem, 48%, 50rem);
         gap: 3rem;
+        width: clamp(34rem, 48%, 50rem);
     }
 }
 
