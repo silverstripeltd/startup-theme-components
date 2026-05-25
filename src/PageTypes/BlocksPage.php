@@ -3,7 +3,7 @@
 namespace SilverStripe\StartupThemeComponents\PageTypes;
 
 use Page;
-use SilverStripe\Forms\CheckboxSetField;
+use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\TextareaField;
 
 class BlocksPage extends Page
@@ -30,12 +30,9 @@ class BlocksPage extends Page
 
         $fields->insertAfter(
             'MenuTitle',
-            CheckboxSetField::create(
+            CheckboxField::create(
                 'ShowHero',
-                'Show Hero',
-                [
-                    '1' => 'Show hero area containing breadcrumbs and page name',
-                ]
+                'Show hero area containing breadcrumbs and page name',
             )
         );
 
